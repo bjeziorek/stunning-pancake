@@ -1,0 +1,19 @@
+{
+  "dashboard": {
+    "title": "Dashboard"
+  },
+  "sidebar": {
+    "sandbox": "UI Sandbox",
+    "nn": "Neural Networks",
+    "llm": "Language Models"
+  },
+  "topbar": {
+    "language": "Language",
+    "switch": "Switch language"
+  },
+  "sandbox": {
+    "title": "Sandbox Playground",
+    "info": "Here you can drop your UI experiments, animations, Radix, Framer Motion work, layout tests, components, prototypes, and so on.",
+    "placeholder": "Drop your test components here…"
+  }
+}

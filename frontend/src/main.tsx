@@ -3,12 +3,20 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { Theme, ThemePanel } from '@radix-ui/themes'
+import { Toaster } from 'sonner';
+import { BrowserRouter } from 'react-router-dom'
+import "./i18n/i18n.ts";
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  <StrictMode> 
+    <BrowserRouter>
     <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%">
-      <App />
+
+      <Toaster />
       <ThemePanel />
+
+      <App />
     </Theme>
+    </BrowserRouter>
   </StrictMode>,
 )
