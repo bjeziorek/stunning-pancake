@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Flex, Text, Button } from "@radix-ui/themes";
+import { motion } from "motion/react"
 
 function App() {
   const [input, setInput] = useState("");
@@ -17,19 +19,31 @@ function App() {
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>React → Flask test</h1>
 
+  
+
+
+    <div style={{ padding: 20 }}>
+      
+      	<Flex direction="column" gap="2">
+			<Text>Hello from Radix Themes :)</Text>
+			<Button>Let's go</Button>
+		</Flex>
+      <h1 className="text-3xl font-bold p-30 underline">
+    Hello world!
+  </h1>
+      <h1>React → Flask test</h1>
+<motion.ul animate={{ rotate: 360 }} />
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Wpisz coś"
       />
-  <button onClick={sendToBackend}>Wyślij</button>
+      <button onClick={sendToBackend}>Wyślij</button>
 
       <p>Odpowiedź backendu: {response}</p>
 
-<br/>
+      <br />
       <input
         type="range"
         min="0"
@@ -38,17 +52,17 @@ function App() {
         value={temperature}
         onChange={(e) => setTemperature(Number(e.target.value))}
       />
-<span style={{
-  background: "#eee",
-  padding: "2px 6px",
-  borderRadius: "6px",
-  fontFamily: "monospace"
-}}>
-  {Number(temperature).toFixed(1)}
-</span>
+      <span style={{
+        background: "#eee",
+        padding: "2px 6px",
+        borderRadius: "6px",
+        fontFamily: "monospace"
+      }}>
+        {Number(temperature).toFixed(1)}
+      </span>
 
 
-    
+
     </div>
   );
 }
