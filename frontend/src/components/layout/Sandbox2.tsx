@@ -67,36 +67,7 @@ export default function Sandbox() {
 
 
     </div>
-      {/* Main playground area */}
-      <div className="flex-1 rounded-xl bg-white dark:bg-gray-800 shadow p-6 overflow-auto">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
-          Sandbox Playground
-        </h2>
-
-        <p className="text-gray-600 dark:text-gray-300 mb-4">
-          Tu możesz wrzucać swoje eksperymenty UI, animacje, Radix, Framer Motion,
-          testy layoutów, komponenty, prototypy itd.
-        </p>
-
-        {/* miejsce na Twoje zabawy */}
-        <div className="border border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-6">
-          {/* wrzucaj tu swoje testy */}
-          <p className="text-gray-500 dark:text-gray-400">
-            Wrzucaj tu swoje komponenty testowe…
-          </p>
-        </div>
-      </div>
-
-      {/* Optional side panel for notes / debug */}
-      <aside className="hidden lg:flex flex-col w-80 rounded-xl bg-white dark:bg-gray-800 shadow p-6">
-        <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">
-          Notes / Debug
-        </h3>
-
-        <p className="text-gray-600 dark:text-gray-300 text-sm">
-          Możesz tu trzymać notatki, logi, debug output, checklisty itd.
-        </p>
-      </aside>
     </div>
+    
   );
 }
