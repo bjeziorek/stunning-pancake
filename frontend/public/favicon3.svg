@@ -1,0 +1,37 @@
+<svg
+  width="64"
+  height="64"
+  viewBox="0 0 64 64"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Głowa -->
+  <circle cx="32" cy="34" r="20" fill="#6B7C93"/>
+
+  <!-- Uszy -->
+  <path d="M18 26 L12 10 L26 22 Z" fill="#6B7C93"/>
+  <path d="M46 26 L52 10 L38 22 Z" fill="#6B7C93"/>
+
+  <!-- Oczy -->
+  <circle cx="26" cy="32" r="3" fill="#0F172A"/>
+  <circle cx="38" cy="32" r="3" fill="#0F172A"/>
+
+  <!-- Nos -->
+  <polygon points="30,38 34,38 32,41" fill="#0F172A"/>
+
+  <!-- Wąsy -->
+  <line x1="14" y1="38" x2="26" y2="38" stroke="#0F172A" stroke-width="2" stroke-linecap="round"/>
+  <line x1="14" y1="41" x2="26" y2="39.5" stroke="#0F172A" stroke-width="2" stroke-linecap="round"/>
+  <line x1="50" y1="38" x2="38" y2="38" stroke="#0F172A" stroke-width="2" stroke-linecap="round"/>
+  <line x1="50" y1="41" x2="38" y2="39.5" stroke="#0F172A" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Mini‑motyw ML -->
+  <circle cx="32" cy="24" r="7" fill="none" stroke="#0F172A" stroke-width="1.5"/>
+  <circle cx="29" cy="22" r="1.5" fill="#0F172A"/>
+  <circle cx="35" cy="22" r="1.5" fill="#0F172A"/>
+  <circle cx="30" cy="26" r="1.5" fill="#0F172A"/>
+  <circle cx="34" cy="26" r="1.5" fill="#0F172A"/>
+  <line x1="29" y1="22" x2="35" y2="22" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="29" y1="22" x2="30" y2="26" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="35" y1="22" x2="34" y2="26" stroke="#0F172A" stroke-width="1.2"/>
+  <line x1="30" y1="26" x2="34" y2="26" stroke="#0F172A" stroke-width="1.2"/>
+</svg>

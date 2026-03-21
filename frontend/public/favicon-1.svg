@@ -1,0 +1,44 @@
+<svg
+  width="64"
+  height="64"
+  viewBox="0 0 64 64"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Tło -->
+  <rect width="64" height="64" rx="14" fill="#0F172A"/>
+
+  <!-- Głowa kotka -->
+  <circle cx="32" cy="34" r="16" fill="#FACC15"/>
+
+  <!-- Uszy -->
+  <path d="M22 24 L18 14 L26 20 Z" fill="#FACC15"/>
+  <path d="M42 24 L46 14 L38 20 Z" fill="#FACC15"/>
+
+  <!-- Oczy -->
+  <circle cx="26" cy="32" r="2.2" fill="#0F172A"/>
+  <circle cx="38" cy="32" r="2.2" fill="#0F172A"/>
+
+  <!-- Nos -->
+  <polygon points="30,36 34,36 32,38.5" fill="#0F172A"/>
+
+  <!-- Wąsy -->
+  <line x1="18" y1="36" x2="26" y2="36" stroke="#0F172A" stroke-width="1.4" stroke-linecap="round"/>
+  <line x1="18" y1="39" x2="26" y2="37.5" stroke="#0F172A" stroke-width="1.4" stroke-linecap="round"/>
+  <line x1="46" y1="36" x2="38" y2="36" stroke="#0F172A" stroke-width="1.4" stroke-linecap="round"/>
+  <line x1="46" y1="39" x2="38" y2="37.5" stroke="#0F172A" stroke-width="1.4" stroke-linecap="round"/>
+
+  <!-- Motyw ML: mała sieć neuronowa na czole -->
+  <circle cx="32" cy="26" r="5.5" fill="none" stroke="#0F172A" stroke-width="1.2"/>
+
+  <!-- Węzły -->
+  <circle cx="29" cy="24.5" r="1.1" fill="#0F172A"/>
+  <circle cx="35" cy="24.5" r="1.1" fill="#0F172A"/>
+  <circle cx="30" cy="28" r="1.1" fill="#0F172A"/>
+  <circle cx="34" cy="28" r="1.1" fill="#0F172A"/>
+
+  <!-- Połączenia -->
+  <line x1="29" y1="24.5" x2="35" y2="24.5" stroke="#0F172A" stroke-width="0.9"/>
+  <line x1="29" y1="24.5" x2="30" y2="28" stroke="#0F172A" stroke-width="0.9"/>
+  <line x1="35" y1="24.5" x2="34" y2="28" stroke="#0F172A" stroke-width="0.9"/>
+  <line x1="30" y1="28" x2="34" y2="28" stroke="#0F172A" stroke-width="0.9"/>
+</svg>

@@ -1,0 +1,12 @@
+# Python
+model_server/venv/
+model_server/__pycache__/
+*.pyc
+
+# Node / React
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+# System
+.DS_Store
