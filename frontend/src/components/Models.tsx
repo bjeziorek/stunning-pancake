@@ -30,6 +30,8 @@ export default function Models() {
         direction: "asc", 
     });
 
+    const [dragged, setDragged] = useState(null);
+
 
     const [columns, setColumns] = useState([
         {
@@ -77,7 +79,11 @@ export default function Models() {
             label: t("models.actions"),
             visible: true,
             render: (model: Model) => (
-                <Button variant="soft" onClick={() => loadModel(model.id.toString())}>
+                <Button 
+                disabled={model.status!=="ready"?true:false}
+                variant="soft" 
+                onClick={() => loadModel(model.id.toString())}
+                >
                     {t("models.load")}
                 </Button>
             )
@@ -172,6 +178,20 @@ export default function Models() {
   });
 };
 
+
+const handleDrop = (targetKey) => {
+  if (!dragged) return;
+
+  const newOrder = [...columns];
+  const fromIndex = newOrder.findIndex(c => c.id === dragged);
+  const toIndex = newOrder.findIndex(c => c.id === targetKey);
+
+  const [moved] = newOrder.splice(fromIndex, 1);
+  newOrder.splice(toIndex, 0, moved);
+
+  setColumns(newOrder);
+  setDragged(null);
+};
 
     function parseSize(value: string | number): number {
         if (typeof value === "number") return value;
@@ -272,8 +292,6 @@ export default function Models() {
         sizeMax: "",
     };
 
-
-
     const tagColor = (tag: string) => {
         if (tag.includes("coding")) return "blue";
         if (tag.includes("chat")) return "green";
@@ -325,7 +343,7 @@ export default function Models() {
                                             alignItems: "center",
                                             justifyContent: "center",
                                             zIndex: 10,
-                                            borderRadius: "var(--radius-3)", // jeśli formularz ma zaokrąglenia
+                                            borderRadius: "var(--radius-3)",
                                         }}
                                     >
                                         <Spinner size="3" />
@@ -459,8 +477,7 @@ export default function Models() {
                     >
                         Następna
                     </Button>
-                </Flex>
-                <Select.Root
+                    <Select.Root
                     value={String(pageSize)}
                     onValueChange={(v) => {
                         setPageSize(Number(v));
@@ -475,6 +492,8 @@ export default function Models() {
                         <Select.Item value="50">50</Select.Item>
                     </Select.Content>
                 </Select.Root>
+                </Flex>
+                
                 <DropdownMenu.Root>
                     <DropdownMenu.Trigger>
                         <Button variant="soft">{t("models.columns")}</Button>
@@ -497,7 +516,14 @@ export default function Models() {
                     <Table.Header>
                         <Table.Row>
                             {columns.filter(c => c.visible).map(col => (
-                                <Table.ColumnHeaderCell key={col.id} onClick={() => toggleSort(col.id)}>
+                                <Table.ColumnHeaderCell 
+                                key={col.id} 
+                                draggable
+                                onDragStart={() => setDragged(col.id)}
+                                onDragOver={(e) => e.preventDefault()}
+                                onDrop={() => handleDrop(col.id)}
+                                onClick={() => toggleSort(col.id)}
+                                >
                                     {col.label} {sort.column === col.id && (sort.direction === "asc" ? "▲" : "▼")}
                                 </Table.ColumnHeaderCell>
                             ))}
