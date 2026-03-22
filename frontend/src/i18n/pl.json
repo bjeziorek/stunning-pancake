@@ -21,6 +21,8 @@
     "models": "Modele",
     "columns":"Kolumny",
     "searchSimplePlaceholder":"Szukaj w modelach...",
+    "advancedFiltering":"Zaawansowane filtrowanie",
+    "reset":"Wyczyść",
     "description": "Opis",
     "name": "Nazwa",
     "base": "Podstawa",

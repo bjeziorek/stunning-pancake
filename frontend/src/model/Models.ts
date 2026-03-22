@@ -1,7 +1,5 @@
 export type Status = "ready" | "loading" | "not_downloaded";
 
-type Renderer<T> = (row: T) => React.ReactNode;
-
 export interface Model {
     name: string,
     description: string,
@@ -9,14 +7,14 @@ export interface Model {
     version: string,
     loraCount: number,
     status:Status,
-    id: string,// number | string,
+    id: string,
     type: string,
     tags: string[],
     size: number | string,
     details: string
 }
 
-
+type Renderer<T> = (row: T) => React.ReactNode;
 
 export interface Columns<T> {
     id: string,

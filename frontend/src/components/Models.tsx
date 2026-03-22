@@ -1,19 +1,35 @@
 
-import { Badge, Button, Card, DropdownMenu, Flex, Table, Text, TextField, Tooltip } from "@radix-ui/themes";
+import { Badge, Button, Card, DropdownMenu, Flex, Select, Spinner, Table, Text, TextField, Tooltip } from "@radix-ui/themes";
 import { t } from "i18next";
 import { models as modelsDBstub } from "../stubs/modelsDB";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Header } from "@radix-ui/themes/components/table";
 import type { Model } from "../model/Models";
 import { TagIcon } from "lucide-react";
+import * as Collapsible from "@radix-ui/react-collapsible";
 
 export default function Models() {
     const [search, setSearch] = useState("");
+    const [open, setOpen] = useState(false);
     const [filters, setFilters] = useState({
-  status: "",
-  type: "",
-  tag: "",
-});
+        query: "",  
+        status: "",    
+        type: "",       
+        tag: "",          
+        baseModel: "",   
+        loraMin: "",    
+        loraMax: "",     
+        sizeMin: "",     
+        sizeMax: "",    
+    });
+
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [sort, setSort] = useState({
+        column: null,     // np. "name", "size", "status"
+        direction: "asc", 
+    });
+
 
     const [columns, setColumns] = useState([
         {
@@ -82,7 +98,7 @@ export default function Models() {
             id: "size",
             label: t("models.size"),
             visible: true,
-            render: (model: Model) => model.size
+            render: (model: Model) => formatSize(model.size)
         },
         {
             id: "details",
@@ -114,6 +130,15 @@ export default function Models() {
         }
     ]);
 
+    const [isPending, startTransition] = useTransition();
+
+
+    const handleReset = () => {
+        startTransition(() => {
+            setFilters(defaultFilters);
+        });
+    };
+
     const loadModel = (id: string) => {
         // todo
         console.log(id)
@@ -124,10 +149,129 @@ export default function Models() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let models: any[] = [];
     if (serviceStatus === 'demo') {
-        models = modelsDBstub;
+        models = modelsDBstub.map(m => ({
+            ...m,
+            size: parseSize(m.size),
+        }));
     }
 
-    const filteredModels = models.filter(model =>  JSON.stringify(model).toLowerCase().includes(search.toLowerCase()));
+    const toggleSort = (column) => {
+  setSort((prev) => {
+
+    if (prev.column === column) {
+      return {
+        column,
+        direction: prev.direction === "asc" ? "desc" : "asc",
+      };
+    }
+
+    return {
+      column,
+      direction: "asc",
+    };
+  });
+};
+
+
+    function parseSize(value: string | number): number {
+        if (typeof value === "number") return value;
+
+        const num = parseFloat(value);
+
+        if (value.toLowerCase().endsWith("b")) {
+            return num * 1_000_000_000;
+        }
+        if (value.toLowerCase().endsWith("m")) {
+            return num * 1_000_000;
+        }
+        if (value.toLowerCase().endsWith("k")) {
+            return num * 1_000;
+        }
+        if (value.toLowerCase().endsWith("g")) {
+            return num * 1_000_000_000;
+        }
+
+        return num;
+    }
+
+
+    function formatSize(bytes: number): string {
+        if (bytes >= 1_000_000_000) {
+            return (bytes / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
+        }
+        if (bytes >= 1_000_000) {
+            return (bytes / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+        }
+        if (bytes >= 1_000) {
+            return (bytes / 1_000).toFixed(1).replace(/\.0$/, "") + "K";
+        }
+        return bytes + "B";
+    }
+
+    const filteredModels = models
+        .filter(m =>
+            JSON.stringify(m).toLowerCase().includes(search.toLowerCase())
+        )
+        .filter(m => {
+            if (filters.query && !(
+                m.name.toLowerCase().includes(filters.query.toLowerCase()) ||
+                m.description.toLowerCase().includes(filters.query.toLowerCase())
+            )) return false;
+
+            if (filters.status && filters.status !== '__all__' && m.status !== filters.status) return false;
+
+            if (filters.type && filters.type !== '__all__' && m.type !== filters.type) return false;
+
+            if (filters.tag && !m.tags.includes(filters.tag)) return false;
+
+            if (filters.baseModel && !m.baseModel.toLowerCase().includes(filters.baseModel.toLowerCase())) return false;
+
+            if (filters.loraMin && m.loraCount < Number(filters.loraMin)) return false;
+            if (filters.loraMax && m.loraCount > Number(filters.loraMax)) return false;
+
+            if (filters.sizeMin && Number(m.size) < Number(filters.sizeMin)) return false;
+            if (filters.sizeMax && Number(m.size) > Number(filters.sizeMax)) return false;
+
+            return true;
+        });
+
+        const sorted = [...filteredModels].sort((a, b) => {
+  if (!sort.column) return 0;
+
+  const col = sort.column;
+  const dir = sort.direction === "asc" ? 1 : -1;
+
+  const valA = a[col];
+  const valB = b[col];
+
+  if (typeof valA === "number" && typeof valB === "number") {
+    return (valA - valB) * dir;
+  }
+
+  return String(valA).localeCompare(String(valB)) * dir;
+});
+
+    const total = sorted.length;
+    const totalPages = Math.ceil(total / pageSize);
+
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+
+    const paginated = sorted.slice(start, end);
+
+
+    const defaultFilters = {
+        query: "",
+        status: "",
+        type: "",
+        tag: "",
+        baseModel: "",
+        loraMin: "",
+        loraMax: "",
+        sizeMin: "",
+        sizeMax: "",
+    };
+
 
 
     const tagColor = (tag: string) => {
@@ -138,10 +282,6 @@ export default function Models() {
         return "gray";
     };
 
-
-
-
-
     const toggleColumn = (id: string) => {
         setColumns(cols =>
             cols.map(col =>
@@ -150,108 +290,232 @@ export default function Models() {
         );
     };
 
-
     return (
-        <Card>
-            <Header>
-                <Text>{t("models.models")}</Text>
-            </Header>
-            <Flex justify="between" align="center" mb="4">
-                <TextField.Root
-                    placeholder={t("models.searchSimplePlaceholder")}
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    style={{ width: "300px" }}
-                />
+        <>
+            <Card>
+                <Header>
+                    <Text>{t("models.models")}</Text>
+                </Header>
+                <Flex justify="between" align="center" mb="4">
+                    <TextField.Root
+                        placeholder={t("models.searchSimplePlaceholder")}
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        style={{ width: "300px" }}
+                    />
 
-                {/* <Button variant="soft" onClick={() => setAdvancedOpen((v) => !v)}>
-    Zaawansowane filtrowanie
-  </Button> */}
-  
-            </Flex>
+                </Flex>
+                <Collapsible.Root open={open} onOpenChange={setOpen}>
+                    <Collapsible.Trigger>
+                        <Button variant="ghost">{t("models.advancedFiltering")} {open ? "▲" : "▼"}</Button>
+                    </Collapsible.Trigger>
 
-            <DropdownMenu.Root>
-                <DropdownMenu.Trigger>
-                    <Button variant="soft">{t("models.columns")}</Button>
-                </DropdownMenu.Trigger>
+                    {open && (
+                        <Collapsible.Content>
 
-                <DropdownMenu.Content>
-                    {columns.map(col => (
-                        <DropdownMenu.CheckboxItem
-                            key={col.id}
-                            checked={col.visible}
-                            onCheckedChange={() => toggleColumn(col.id)}
-                        >
-                            {col.label}
-                        </DropdownMenu.CheckboxItem>
-                    ))}
-                </DropdownMenu.Content>
-            </DropdownMenu.Root>
+                            <div style={{ position: "relative" }}>
+                                {isPending && (
+                                    <div
+                                        style={{
+                                            position: "absolute",
+                                            inset: 0,
+                                            background: "rgba(33, 33, 33, 0.6)",
+                                            backdropFilter: "blur(3px)",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            zIndex: 10,
+                                            borderRadius: "var(--radius-3)", // jeśli formularz ma zaokrąglenia
+                                        }}
+                                    >
+                                        <Spinner size="3" />
+                                    </div>
+                                )}
+                                <Flex direction="column" gap="3" mt="3">
+                                    <Flex direction="column" gap="4">
+
+                                        {/* Nazwa / opis */}
+                                        <TextField.Root
+                                            placeholder="Nazwa lub opis"
+                                            value={filters.query}
+                                            onChange={(e) => setFilters(f => ({ ...f, query: e.target.value }))}
+                                        />
+
+                                        {/* Status */}
+                                        <Select.Root
+                                            value={filters.status}
+                                            onValueChange={(value) => setFilters(f => ({ ...f, status: value }))}
+                                        >
+                                            <Select.Trigger placeholder="Status" />
+                                            <Select.Content>
+                                                <Select.Item value="__all__">Wszystkie</Select.Item>
+                                                <Select.Item value="ready">ready</Select.Item>
+                                                <Select.Item value="loading">loading</Select.Item>
+                                                <Select.Item value="not_downloaded">not_downloaded</Select.Item>
+                                            </Select.Content>
+                                        </Select.Root>
+
+                                        {/* Typ */}
+                                        <Select.Root
+                                            value={filters.type}
+                                            onValueChange={(value) => setFilters(f => ({ ...f, type: value }))}
+                                        >
+                                            <Select.Trigger placeholder="Typ modelu" />
+                                            <Select.Content>
+                                                <Select.Item value="__all__">Wszystkie</Select.Item>
+                                                <Select.Item value="chat">chat</Select.Item>
+                                                <Select.Item value="coding">coding</Select.Item>
+                                                <Select.Item value="science">science</Select.Item>
+                                                <Select.Item value="creative">creative</Select.Item>
+                                                <Select.Item value="language">language</Select.Item>
+                                            </Select.Content>
+                                        </Select.Root>
+
+                                        {/* Tag */}
+                                        <TextField.Root
+                                            placeholder="Tag (np. coding)"
+                                            value={filters.tag}
+                                            onChange={(e) => setFilters(f => ({ ...f, tag: e.target.value }))}
+                                        />
+
+                                        {/* Base model */}
+                                        <TextField.Root
+                                            placeholder="Base model (np. llama3)"
+                                            value={filters.baseModel}
+                                            onChange={(e) => setFilters(f => ({ ...f, baseModel: e.target.value }))}
+                                        />
+
+                                        {/* Lora count */}
+                                        <Flex gap="2">
+                                            <TextField.Root
+                                                placeholder="LoRA min"
+                                                type="number"
+                                                value={filters.loraMin}
+                                                onChange={(e) => setFilters(f => ({ ...f, loraMin: e.target.value }))}
+                                            />
+                                            <TextField.Root
+                                                placeholder="LoRA max"
+                                                type="number"
+                                                value={filters.loraMax}
+                                                onChange={(e) => setFilters(f => ({ ...f, loraMax: e.target.value }))}
+                                            />
+                                        </Flex>
+
+                                        {/* Size */}
+                                        <Flex gap="2">
+                                            <TextField.Root
+                                                placeholder="Rozmiar min"
+                                                type="number"
+                                                value={filters.sizeMin}
+                                                onChange={(e) => setFilters(f => ({ ...f, sizeMin: e.target.value }))}
+                                            />
+                                            <TextField.Root
+                                                placeholder="Rozmiar max"
+                                                type="number"
+                                                value={filters.sizeMax}
+                                                onChange={(e) => setFilters(f => ({ ...f, sizeMax: e.target.value }))}
+                                            />
+                                        </Flex>
+
+                                        {isPending && (
+                                            <div className="overlay">
+                                                <Spinner />
+                                            </div>
+                                        )}
 
 
-            <Table.Root>
-                <Table.Header>
-                    <Table.Row>
-                        {columns.filter(c => c.visible).map(col => (
-                            <Table.ColumnHeaderCell key={col.id}>
+                                        {/* Przyciski */}
+                                        <Flex gap="2" mt="2">
+                                            <Button variant="soft" onClick={handleReset}>{t("models.reset")}</Button>
+                                        </Flex>
+
+                                    </Flex>
+
+                                </Flex>
+                            </div>
+                        </Collapsible.Content>
+                    )}
+
+                </Collapsible.Root>
+            </Card>
+
+
+            <Card className="mt-4">
+                <Flex gap="3" align="center" mt="4">
+                    <Button
+                        variant="soft"
+                        disabled={page === 1}
+                        onClick={() => setPage(p => p - 1)}
+                    >
+                        Poprzednia
+                    </Button>
+                    <Text>
+                        Strona {page} z {totalPages}
+                    </Text>
+                    <Button
+                        variant="soft"
+                        disabled={page === totalPages}
+                        onClick={() => setPage(p => p + 1)}
+                    >
+                        Następna
+                    </Button>
+                </Flex>
+                <Select.Root
+                    value={String(pageSize)}
+                    onValueChange={(v) => {
+                        setPageSize(Number(v));
+                        setPage(1);
+                    }}
+                >
+                    <Select.Trigger />
+                    <Select.Content>
+                        <Select.Item value="4">4</Select.Item>
+                        <Select.Item value="10">10</Select.Item>
+                        <Select.Item value="20">20</Select.Item>
+                        <Select.Item value="50">50</Select.Item>
+                    </Select.Content>
+                </Select.Root>
+                <DropdownMenu.Root>
+                    <DropdownMenu.Trigger>
+                        <Button variant="soft">{t("models.columns")}</Button>
+                    </DropdownMenu.Trigger>
+
+                    <DropdownMenu.Content>
+                        {columns.map(col => (
+                            <DropdownMenu.CheckboxItem
+                                key={col.id}
+                                checked={col.visible}
+                                onCheckedChange={() => toggleColumn(col.id)}
+                            >
                                 {col.label}
-                            </Table.ColumnHeaderCell>
+                            </DropdownMenu.CheckboxItem>
                         ))}
-                        {/* <Table.ColumnHeaderCell>{t("models.name")}</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>{t("models.description")}</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>{t("models.base")}</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>{t("models.version")}</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>{t("models.lora")}</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>{t("models.id")}</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>{t("models.type")}</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>{t("models.tags")}</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>{t("models.size")}</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>{t("models.details")}</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>{t("models.status")}</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell></Table.ColumnHeaderCell> */}
-                    </Table.Row>
-                </Table.Header>
+                    </DropdownMenu.Content>
+                </DropdownMenu.Root>
 
-                <Table.Body>
-                    {filteredModels.map((model: Model) => (
-                        <Table.Row key={model.id}>
+                <Table.Root>
+                    <Table.Header>
+                        <Table.Row>
                             {columns.filter(c => c.visible).map(col => (
-                                <Table.Cell key={col.id}>
-                                    {/* {model[col.id]} */}
-                                    {col.render(model)}
-                                </Table.Cell>
+                                <Table.ColumnHeaderCell key={col.id} onClick={() => toggleSort(col.id)}>
+                                    {col.label} {sort.column === col.id && (sort.direction === "asc" ? "▲" : "▼")}
+                                </Table.ColumnHeaderCell>
                             ))}
                         </Table.Row>
-                    ))}
-                    {/* {models.map(model => (
-                        <Table.Row key={model.id}>
-                            <Table.Cell><Text>{model.name}</Text></Table.Cell>
-                            <Table.Cell>{model.description}</Table.Cell>
-                            <Table.Cell>{model.baseModel}</Table.Cell>
-                            <Table.Cell>{model.version}</Table.Cell>
-                            <Table.Cell>{model.loraCount}</Table.Cell>
-                            <Table.Cell>{model.id}</Table.Cell>
-                            <Table.Cell>{model.type}</Table.Cell>
-                            <Table.Cell>{model.tags.join(" ").trim()}</Table.Cell>
-                            <Table.Cell>{model.size}</Table.Cell>
-                            <Table.Cell>{model.details}</Table.Cell>
-                            <Table.Cell>
-                                <Badge color={model.status === "ready" ? "green" : "amber"}>
-                                    {model.status}
-                                </Badge>
-                            </Table.Cell>
-                            <Table.Cell>
-                                <Button
-                                    variant="soft"
-                                    onClick={() => loadModel(model.id)}
-                                >
-                                    <Text>{t("models.load")}</Text>
-                                </Button>
-                            </Table.Cell>
-                        </Table.Row>
-                    ))} */}
-                </Table.Body>
-            </Table.Root>
-        </Card>
+                    </Table.Header>
+                    <Table.Body>
+                        {paginated.map((model: Model) => (
+                            <Table.Row key={model.id}>
+                                {columns.filter(c => c.visible).map(col => (
+                                    <Table.Cell key={col.id}>
+                                        {col.render(model)}
+                                    </Table.Cell>
+                                ))}
+                            </Table.Row>
+                        ))}
+                    </Table.Body>
+                </Table.Root>
+            </Card>
+        </>
     );
 }

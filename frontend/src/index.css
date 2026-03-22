@@ -1,6 +1,39 @@
 @import "tailwindcss";
 @import "@radix-ui/themes/styles.css";
 /* 
+.collapsible-content[data-state="closed"] {
+  display: none;
+}
+
+.collapsible-content[data-state="open"] {
+  display: block;
+}
+
+
+.collapsible-content {
+  overflow: hidden;
+  transition: height 0.25s ease;
+}
+
+.collapsible-content[data-state="open"] {
+  animation: slideDown 0.25s ease forwards;
+}
+
+.collapsible-content[data-state="closed"] {
+  animation: slideUp 0.25s ease forwards;
+}
+
+@keyframes slideDown {
+  from { height: 0; }
+  to { height: var(--radix-collapsible-content-height); }
+}
+
+@keyframes slideUp {
+  from { height: var(--radix-collapsible-content-height); }
+  to { height: 0; }
+} */
+
+/* 
 
 :root {
   --text: #6b6375;

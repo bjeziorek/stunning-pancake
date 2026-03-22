@@ -21,6 +21,8 @@
     "models": "Models",
     "columns":"Columns",
     "searchSimplePlaceholder":"Search in models...",
+    "advancedFiltering":"Advanced filters",
+    "reset":"Reset",
     "description": "Description",
     "name": "Name",
     "base": "Base",
