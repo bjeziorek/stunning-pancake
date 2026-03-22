@@ -12,6 +12,8 @@
   "topbar": {
     "language": "Język",
     "connection": "Połączenie z serwerem",
+    "connect": "Połącz",
+    "disconnect": "Rozłącz",
     "switch": "Przełącz język"
   },
   "sandbox": {

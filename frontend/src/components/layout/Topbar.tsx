@@ -1,11 +1,11 @@
-
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { Button, Flex, Text } from "@radix-ui/themes";
+import { Button, Flex, Spinner, Text } from "@radix-ui/themes";
 import { motion } from "framer-motion";
-import { Circle, Languages, Palette } from "lucide-react";
+import { Languages, Palette, Plug, Unplug } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGatewayPing } from "../../hooks/useGatewayPing";
+import { useGatewayConnection } from "../../hooks/useGatewayConnection";
 
 interface TopbarProps {
   onLanguageChange: () => void;
@@ -14,19 +14,14 @@ interface TopbarProps {
 
 export default function Topbar({ onLanguageChange, isAnimating }: TopbarProps) {
   const { online } = useGatewayPing();
-
+  const { enabled, setEnabled } = useGatewayConnection()
 
   const { t, i18n } = useTranslation();
   const [showThemeInfo, setShowThemeInfo] = useState(false);
 
-
   const handleClick = () => {
-    onLanguageChange(); // <-- NIE zmieniamy języka tutaj
+    onLanguageChange(); 
   };
-
-  // const toggleLanguage = () => {
-  //   i18n.changeLanguage(i18n.language === "pl" ? "en" : "pl");
-  // };
 
   return (
     <motion.header
@@ -41,15 +36,20 @@ export default function Topbar({ onLanguageChange, isAnimating }: TopbarProps) {
     >
       <header >
         <Flex gap="4">
-          <Text>{t("topbar.connection")}</Text>
-          <Circle
-            style={{
-              width: 20,
-              height: 20,
-              borderRadius: "50%",
-              background: online ? "var(--green-9)" : "var(--red-9)",
-            }}
-          />
+          <Button onClick={() => setEnabled(!enabled)}>
+            {enabled?(<Unplug /> ):(<Plug/>)}
+            {enabled?(<Text>{t('topbar.disconnect')}</Text> ):(<Text>{t('topbar.connect')}</Text> )}
+          </Button>
+        
+           {enabled ? (
+      online ? (
+        <div style={{ width: 20, height: 20, borderRadius: "50%", background: "green" }} />
+      ) : (
+        <Spinner size="3" />
+      )
+    ) : (
+      <div style={{ width: 20, height: 20, borderRadius: "50%", background: "red" }} />
+    )}
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
               <Button variant="outline">

@@ -12,6 +12,8 @@
   "topbar": {
     "language": "Language",
     "connection": "Server connetion",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
     "switch": "Switch language"
   },
   "sandbox": {
