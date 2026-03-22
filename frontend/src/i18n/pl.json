@@ -14,6 +14,7 @@
     "connection": "Połączenie z serwerem",
     "connect": "Połącz",
     "disconnect": "Rozłącz",
+    "connectionError": "Nie udało się połączyć z serwerem. Wyłączono tryb online.",
     "switch": "Przełącz język"
   },
   "sandbox": {

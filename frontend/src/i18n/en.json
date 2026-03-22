@@ -14,6 +14,7 @@
     "connection": "Server connetion",
     "connect": "Connect",
     "disconnect": "Disconnect",
+    "connectionError": "Connection failed. Switched to offline mode.",
     "switch": "Switch language"
   },
   "sandbox": {

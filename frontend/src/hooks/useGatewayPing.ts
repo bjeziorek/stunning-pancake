@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useGatewayConnection } from "./useGatewayConnection";
+import { toast } from "sonner";
+
 
 export function useGatewayPing() {
   const { enabled ,setEnabled} = useGatewayConnection();
@@ -27,6 +29,7 @@ const failCount = useRef(0);
       if (failCount.current >= 10) {
       setEnabled(false);
       failCount.current = 0;
+       toast.error("Nie udało się połączyć z serwerem. Wyłączono tryb online.");
     }
     }
   },[setEnabled]);
