@@ -19,6 +19,8 @@
   },
   "models": {
     "models": "Modele",
+    "columns":"Kolumny",
+    "searchSimplePlaceholder":"Szukaj w modelach...",
     "description": "Opis",
     "name": "Nazwa",
     "base": "Podstawa",
@@ -30,6 +32,7 @@
     "tags":"Tagi",
     "size":"Rozmiar",
     "details":"Szczegóły",
-    "load":"Załaduj"
+    "load":"Załaduj",
+    "actions":"Akcje"
   }
 }

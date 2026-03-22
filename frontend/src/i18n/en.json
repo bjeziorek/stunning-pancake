@@ -19,6 +19,8 @@
   },
   "models": {
     "models": "Models",
+    "columns":"Columns",
+    "searchSimplePlaceholder":"Search in models...",
     "description": "Description",
     "name": "Name",
     "base": "Base",
@@ -30,6 +32,7 @@
     "tags":"Tags",
     "size":"Size",
     "details":"Details",
-    "load":"Load"
+    "load":"Load",
+    "actions":"Actions"
   }
 }
