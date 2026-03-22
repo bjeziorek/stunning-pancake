@@ -12,27 +12,21 @@ export default function Dashboard() {
   const { i18n } = useTranslation();
   const [isAnimating, setIsAnimating] = useState(false);
   const [nextLang, setNextLang] = useState<string | null>(null);
-    // const [pendingLangChange, setPendingLangChange] = useState(false);
 
   const handleLanguageChange = () => {
-    // setPendingLangChange(true); // uruchamiamy fade-out
-     const newLang = i18n.language === "pl" ? "en" : "pl";
+    const newLang = i18n.language === "pl" ? "en" : "pl";
     setNextLang(newLang);
     setIsAnimating(true); // start fade-out
   };
 
   const handleAnimationComplete = () => {
-    // if (pendingLangChange) {
-    //   i18n.changeLanguage(i18n.language === "pl" ? "en" : "pl");
-    //   setPendingLangChange(false);
-    // }
-     if (isAnimating && nextLang) {
+    if (isAnimating && nextLang) {
       i18n.changeLanguage(nextLang); // zmiana języka dokładnie po fade-out
       setIsAnimating(false);
       setNextLang(null);
     }
   };
- const renderKey = isAnimating ? "fade-out" : i18n.language;
+  const renderKey = isAnimating ? "fade-out" : i18n.language;
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-gray-50 dark:bg-gray-900">
       {/* Sidebar (desktop) */}
@@ -41,9 +35,9 @@ export default function Dashboard() {
       {/* Main content area */}
       <div className="flex flex-col flex-1">
         <Topbar
-         onLanguageChange={handleLanguageChange} 
-         isAnimating={isAnimating}
-         />
+          onLanguageChange={handleLanguageChange}
+          isAnimating={isAnimating}
+        />
 
         <main className="flex-1 overflow-y-auto p-4">
           <AnimatePresence mode="wait">
@@ -53,15 +47,13 @@ export default function Dashboard() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-                onAnimationComplete={handleAnimationComplete}
+              onAnimationComplete={handleAnimationComplete}
             >
               {!isAnimating && <Outlet />}
             </motion.div>
           </AnimatePresence>
         </main>
       </div>
-      
     </div>
-    
   );
 }

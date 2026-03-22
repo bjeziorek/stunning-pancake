@@ -5,7 +5,8 @@
   "sidebar": {
     "sandbox": "UI Sandbox",
     "nn": "Neural Networks",
-    "llm": "Language Models"
+    "llm": "Language Models",
+    "models": "Models"
   },
   "topbar": {
     "language": "Language",
@@ -15,5 +16,20 @@
     "title": "Sandbox Playground",
     "info": "Here you can drop your UI experiments, animations, Radix, Framer Motion work, layout tests, components, prototypes, and so on.",
     "placeholder": "Drop your test components here…"
+  },
+  "models": {
+    "models": "Models",
+    "description": "Description",
+    "name": "Name",
+    "base": "Base",
+    "version": "Version",
+    "lora": "LoRA",
+    "status": "Status",
+    "id": "ID",
+    "type": "Type",
+    "tags":"Tags",
+    "size":"Size",
+    "details":"Details",
+    "load":"Load"
   }
 }

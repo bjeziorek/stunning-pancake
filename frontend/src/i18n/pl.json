@@ -5,7 +5,8 @@
   "sidebar": {
     "sandbox": "Piaskownica UI",
     "nn": "Sieci neuronowe",
-    "llm": "Modele językowe"
+    "llm": "Modele językowe",
+    "models": "Modele"
   },
   "topbar": {
     "language": "Język",
@@ -15,5 +16,20 @@
     "title": "Piaskownica do zabaw",
     "info": "Tu możesz wrzucać swoje eksperymenty UI, animacje, Radix, Framer Motion, testy layoutów, komponenty, prototypy itd.",
     "placeholder": "Wrzucaj tu swoje komponenty testowe…"
+  },
+  "models": {
+    "models": "Modele",
+    "description": "Opis",
+    "name": "Nazwa",
+    "base": "Podstawa",
+    "version": "Wersja",
+    "lora": "LoRA",
+    "status": "Status",
+    "id": "ID",
+    "type": "Typ",
+    "tags":"Tagi",
+    "size":"Rozmiar",
+    "details":"Szczegóły",
+    "load":"Załaduj"
   }
 }

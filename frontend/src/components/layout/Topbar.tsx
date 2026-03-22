@@ -1,8 +1,8 @@
 
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { ThemePanel } from "@radix-ui/themes";
+import { Button } from "@radix-ui/themes";
 import { motion } from "framer-motion";
-import { Palette } from "lucide-react";
+import { Languages, Palette } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -30,20 +30,22 @@ export default function Topbar({ onLanguageChange, isAnimating }: TopbarProps) {
 
   return (
     <motion.header
-      className="h-14 flex items-center justify-between px-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700"
+     className="
+    h-14 flex items-center justify-between px-4
+    bg-[var(--color-panel)]
+    text-[var(--gray-12)]
+    border-b border-[var(--gray-6)]
+  "
       animate={{ opacity: isAnimating ? 0 : 1 }}
       transition={{ duration: 0.25 }}
     >
-      <header className="h-14 flex items-center justify-between px-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-        <div className="font-semibold text-gray-800 dark:text-gray-200">
-          {t("dashboard.title")}
-        </div>
-
+      <header >
+      
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
-            <button className="px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600">
-              {i18n.language.toUpperCase()}
-            </button>
+            <Button variant="ghost">
+             <Languages/> {i18n.language.toUpperCase()}
+            </Button>
           </DropdownMenu.Trigger>
 
           <DropdownMenu.Content
@@ -63,6 +65,7 @@ export default function Topbar({ onLanguageChange, isAnimating }: TopbarProps) {
             </DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
+        
       </header>
       <button
         onClick={() => setShowThemeInfo(true)}

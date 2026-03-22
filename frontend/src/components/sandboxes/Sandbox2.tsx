@@ -24,7 +24,7 @@ export default function Sandbox() {
   return (
 
 
-    <div className="flex h-full w-full gap-4 p-4 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-[var(--color-surface)]">
       <div style={{ padding: 20 }}>
     
       <button onClick={() => toast('Toast')}>Render Toast</button>
