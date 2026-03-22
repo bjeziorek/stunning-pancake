@@ -4,12 +4,14 @@
   },
   "sidebar": {
     "sandbox": "Piaskownica UI",
+    "health": "Stan serwera",
     "nn": "Sieci neuronowe",
     "llm": "Modele językowe",
     "models": "Modele"
   },
   "topbar": {
     "language": "Język",
+    "connection": "Połączenie z serwerem",
     "switch": "Przełącz język"
   },
   "sandbox": {

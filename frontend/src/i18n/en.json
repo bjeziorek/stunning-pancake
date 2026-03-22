@@ -4,12 +4,14 @@
   },
   "sidebar": {
     "sandbox": "UI Sandbox",
+    "health": "Server Status",
     "nn": "Neural Networks",
     "llm": "Language Models",
     "models": "Models"
   },
   "topbar": {
     "language": "Language",
+    "connection": "Server connetion",
     "switch": "Switch language"
   },
   "sandbox": {

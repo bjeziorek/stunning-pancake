@@ -1,5 +1,5 @@
 import { Flex } from "@radix-ui/themes";
-import { Brain, FlaskConical, Home, Puzzle } from "lucide-react";
+import { Brain, FlaskConical, Home, Puzzle, HeartPlus } from "lucide-react";
 import { motion } from "motion/react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
@@ -44,6 +44,25 @@ export default function Sidebar({ isAnimating }: SidebarProps) {
               >
                 <Home size={18} />
                 <p>{t("dashboard.title")}</p>
+              </Flex>
+            )}
+          </NavLink>
+
+             <NavLink className="w-full" to="/health">
+            {({ isActive }) => (
+              <Flex
+                align="center"
+                gap="3"
+                className={`
+        w-full px-3 py-2 rounded cursor-pointer
+        ${isActive
+                    ? "bg-[var(--accent-4)] text-[var(--accent-11)]"
+                    : "text-[var(--gray-11)] hover:bg-[var(--gray-4)]"
+                  }
+      `}
+              >
+                <HeartPlus size={18} />
+                <p>{t("sidebar.health")}</p>
               </Flex>
             )}
           </NavLink>

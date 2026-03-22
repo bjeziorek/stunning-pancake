@@ -3,6 +3,9 @@ model_server/venv/
 model_server/__pycache__/
 *.pyc
 
+# Node
+api/node_modules
+
 # Node / React
 frontend/node_modules/
 frontend/dist/
