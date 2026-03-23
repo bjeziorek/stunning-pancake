@@ -48,7 +48,7 @@ export default function Sidebar({ isAnimating }: SidebarProps) {
             )}
           </NavLink>
 
-             <NavLink className="w-full" to="/health">
+          <NavLink className="w-full" to="/health">
             {({ isActive }) => (
               <Flex
                 align="center"
@@ -67,7 +67,7 @@ export default function Sidebar({ isAnimating }: SidebarProps) {
             )}
           </NavLink>
 
- <NavLink
+          <NavLink
             to="/models"
           >
             {({ isActive }) => (
@@ -84,6 +84,27 @@ export default function Sidebar({ isAnimating }: SidebarProps) {
               >
                 <Brain size={18} />
                 <p>{t("sidebar.models")}</p>
+              </Flex>
+            )}
+          </NavLink>
+
+           <NavLink
+            to="/nn"
+          >
+            {({ isActive }) => (
+              <Flex
+                align="center"
+                gap="3"
+                className={`
+        w-full px-3 py-2 rounded cursor-pointer
+        ${isActive
+                    ? "bg-[var(--accent-4)] text-[var(--accent-11)]"
+                    : "text-[var(--gray-11)] hover:bg-[var(--gray-4)]"
+                  }
+      `}
+              >
+                <Brain size={18} />
+                <p>{t("sidebar.nn")}</p>
               </Flex>
             )}
           </NavLink>

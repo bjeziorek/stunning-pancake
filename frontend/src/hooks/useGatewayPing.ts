@@ -4,11 +4,11 @@ import { toast } from "sonner";
 
 
 export function useGatewayPing() {
-  const { enabled ,setEnabled} = useGatewayConnection();
+  const { enabled, setEnabled } = useGatewayConnection();
   const [online, setOnline] = useState<boolean | null>(null);
   const [services, setServices] = useState<Record<string, boolean>>({});
 
-const failCount = useRef(0);
+  const failCount = useRef(0);
 
 
   const ping = useCallback(async () => {
@@ -27,16 +27,19 @@ const failCount = useRef(0);
       failCount.current += 1;
 
       if (failCount.current >= 10) {
-      setEnabled(false);
-      failCount.current = 0;
-       toast.error("Nie udało się połączyć z serwerem. Wyłączono tryb online.");
+        setEnabled(false);
+        failCount.current = 0;
+        toast.error("Nie udało się połączyć z serwerem. Wyłączono tryb online.");
+      }
     }
-    }
-  },[setEnabled]);
+  }, [setEnabled]);
 
   useEffect(() => {
-    if (!enabled)  return
-    
+    if (!enabled) {
+      setOnline(false)
+      return
+    }
+
     ping();
 
     const interval = setInterval(ping, 3000);
