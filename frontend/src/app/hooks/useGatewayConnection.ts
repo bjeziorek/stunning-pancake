@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { GatewayConnectionContext } from "../context/GatewayConnectionContext";
+import { GatewayConnectionContext } from "../providers/GatewayConnectionContext";
 
 
 export function useGatewayConnection() {

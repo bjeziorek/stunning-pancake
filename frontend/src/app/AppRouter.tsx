@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
-import Sandbox from "./components/sandboxes/Sandbox";
-import Sandbox2 from "./components/sandboxes/Sandbox2";
-import Models from "./components/Models";
-import Health from "./components/Health";
-import NeuralNetworks from "./components/NeuralNetworks";
+import Dashboard from "../modules/dashboard/Dashboard";
+import Sandbox from "../modules/sandbox1/Sandbox";
+import Sandbox2 from "../modules/sandbox2/Sandbox2";
+import Models from "../modules/models/Models";
+import Health from "../modules/health/Health";
+import NeuralNetworks from "../modules/nn/NeuralNetworks";
 
 function AppRouter() {
     return (

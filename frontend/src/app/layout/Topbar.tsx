@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { Languages, Palette, Plug, Unplug } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useGatewayPing } from "../../hooks/useGatewayPing";
-import { useGatewayConnection } from "../../hooks/useGatewayConnection";
+import { useGatewayPing } from "../hooks/useGatewayPing";
+import { useGatewayConnection } from "../hooks/useGatewayConnection";
+
 
 interface TopbarProps {
   onLanguageChange: () => void;

@@ -1,12 +1,14 @@
 
 import { Badge, Button, Card, DropdownMenu, Flex, Select, Spinner, Table, Text, TextField, Tooltip } from "@radix-ui/themes";
 import { t } from "i18next";
-import { models as modelsDBstub } from "../stubs/modelsDB";
+import { models as modelsDBstub } from "./mock/modelsDB";
 import { useState, useTransition } from "react";
 import { Header } from "@radix-ui/themes/components/table";
-import type { Model } from "../model/Models";
+import type { Model } from "./types/Models";
 import { TagIcon } from "lucide-react";
 import * as Collapsible from "@radix-ui/react-collapsible";
+import { OfflineWrapper } from "../../shared/components/OfflineWrapper";
+import { DemoTable } from "./demoInfo/DemoTable";
 
 export default function Models() {
     const [search, setSearch] = useState("");
@@ -310,6 +312,12 @@ const handleDrop = (targetKey) => {
 
     return (
         <>
+        <OfflineWrapper>
+            <DemoTable/>
+        </OfflineWrapper>
+         <OfflineWrapper>
+            <Text>Test</Text>
+        </OfflineWrapper>
             <Card>
                 <Header>
                     <Text>{t("models.models")}</Text>

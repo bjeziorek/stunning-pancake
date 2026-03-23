@@ -1,4 +1,116 @@
-export const models= [
+import { t } from "i18next"
+import type { Model } from "../types/Models"
+import { Badge, TagIcon } from "lucide-react";
+import { Button, Flex, Tooltip } from "@radix-ui/themes";
+import { tagColor } from "./utils/tagColor";
+import { formatSize } from "./utils/formatSize";
+import { loadModel } from "./utils/loadModel";
+import { parseSize } from "./utils/parseSize";
+
+export const columsMock = [
+  {
+    id: "name",
+    label: t("models.name"),
+    visible: true,
+    render: (model: Model) => model.name
+  },
+  {
+    id: "description",
+    label: t("models.description"),
+    visible: true,
+    render: (model: Model) => model.description
+  },
+  {
+    id: "baseModel",
+    label: t("models.base"),
+    visible: true,
+    render: (model: Model) => model.baseModel
+  },
+  {
+    id: "version",
+    label: t("models.version"),
+    visible: true,
+    render: (model: Model) => model.version
+  },
+  {
+    id: "loraCount",
+    label: t("models.lora"),
+    visible: true,
+    render: (model: Model) => model.loraCount
+  },
+  {
+    id: "status",
+    label: t("models.status"),
+    visible: true,
+    render: (model: Model) => (
+      <Badge color={model.status === "ready" ? "green" : "amber"}>
+        {model.status}
+      </Badge>
+    )
+  },
+  {
+    id: "actions",
+    label: t("models.actions"),
+    visible: true,
+    render: (model: Model) => (
+      <Button
+        disabled={model.status !== "ready" ? true : false}
+        variant="soft"
+        onClick={() => loadModel(model.id.toString())}
+      >
+        {t("models.load")}
+      </Button>
+    )
+  },
+  {
+    id: "id",
+    label: t("models.id"),
+    visible: true,
+    render: (model: Model) => model.id
+  },
+  {
+    id: "type",
+    label: t("models.type"),
+    visible: true,
+    render: (model: Model) => model.type
+  },
+  {
+    id: "size",
+    label: t("models.size"),
+    visible: true,
+    render: (model: Model) => formatSize(model.size)
+  },
+  {
+    id: "details",
+    label: t("models.details"),
+    visible: true,
+    render: (model: Model) => model.details
+  },
+  {
+    id: "tags",
+    label: t("models.tags"),
+    visible: true,
+    render: (model: Model) => (
+      <Flex gap="2" wrap="wrap">
+        {model.tags.map(tag => (
+          <Tooltip key={tag} content={tag}>
+            <Badge
+              key={tag}
+              variant="soft"
+              radius="full"
+              color={tagColor(tag)}
+            >
+              <TagIcon size={12} />
+              {tag}
+            </Badge>
+          </Tooltip>
+        ))}
+      </Flex>
+    )
+  }
+];
+
+export const models = [
   {
     "id": 1,
     "name": "GPT‑2 Base",
@@ -1300,3 +1412,8 @@ export const models= [
     "details": "Model trenowany na datasetach akademickich i publikacjach naukowych."
   }
 ];
+
+export const modelsDBstub = models.map(m => ({
+  ...m,
+  size: parseSize(m.size),
+}));
