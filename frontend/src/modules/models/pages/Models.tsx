@@ -1,14 +1,17 @@
 
 import { Badge, Button, Card, DropdownMenu, Flex, Select, Spinner, Table, Text, TextField, Tooltip } from "@radix-ui/themes";
 import { t } from "i18next";
-import { models as modelsDBstub } from "./mock/modelsDB";
+
 import { useState, useTransition } from "react";
 import { Header } from "@radix-ui/themes/components/table";
-import type { Model } from "./types/Models";
+
 import { TagIcon } from "lucide-react";
 import * as Collapsible from "@radix-ui/react-collapsible";
-import { OfflineWrapper } from "../../shared/components/OfflineWrapper";
-import { DemoTable } from "./demoInfo/DemoTable";
+
+import type { Model } from "../types/Models";
+import { models as modelsDBstub } from "../mock/modelsDB";
+import { OfflineWrapper } from "@/shared/components/OfflineWrapper";
+import { DemoTable } from "../demoInfo/DemoTable";
 
 export default function Models() {
     const [search, setSearch] = useState("");

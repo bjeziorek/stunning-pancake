@@ -6,10 +6,9 @@ import { useState, useTransition } from "react";
 import { Header } from "@radix-ui/themes/components/table";
 
 import * as Collapsible from "@radix-ui/react-collapsible";
-import { modelsDBstub } from "../../modules/models/mock/modelsDB";
-import { OfflineWrapper } from "./OfflineWrapper";
-import { DemoTable } from "../../modules/models/demoInfo/DemoTable";
-import type { Model } from "../../modules/models/types/Models";
+import { modelsDBstub } from "@/modules/models/mock/modelsDB";
+import type { Model } from "@/modules/models/types/Models";
+
 
 
 interface TableWrapperPoprs{

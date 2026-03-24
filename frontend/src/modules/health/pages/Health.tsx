@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Text } from "@radix-ui/themes";
-import { useGatewayPing } from "../../app/hooks/useGatewayPing";
-import { useProgressWS } from "../../app/hooks/useProgressWS";
+import { useGatewayPing } from "../../../app/hooks/useGatewayPing";
+import { useProgressWS } from "../../../app/hooks/useProgressWS";
 
 
 export default function Health() {

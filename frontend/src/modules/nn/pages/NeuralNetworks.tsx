@@ -1,9 +1,9 @@
 import {  Text} from "@radix-ui/themes";
 import { t } from "i18next";
-import { OfflineWrapper } from "../../shared/components/OfflineWrapper";
-import { TestDemo } from "./demoInfo/TestDemo";
-import TableWrapper from "../../shared/components/TableWrapper";
-import { columsMock, modelsDBstub } from "../models/mock/modelsDB";
+import { OfflineWrapper } from "../../../shared/components/OfflineWrapper";
+import { TestDemo } from "../demoInfo/TestDemo";
+import { columsMock, modelsDBstub } from "../../models/mock/modelsDB";
+import { TableWrapper } from "@/shared/components";
 
 export default function NeuralNetworks() {
 

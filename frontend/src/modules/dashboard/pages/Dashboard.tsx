@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
-import Sidebar from "../../app/layout/sidebar/Sidebar";
-import Topbar from "../../app/layout/Topbar";
+import Sidebar from "../../../app/layout/sidebar/Sidebar";
+import Topbar from "../../../app/layout/Topbar";
 import { motion, AnimatePresence } from "framer-motion";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import i18n from "../../i18n/i18n";
+import i18n from "../../../i18n/i18n";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
