@@ -7,40 +7,64 @@ import { formatSize } from "./utils/formatSize";
 import { loadModel } from "./utils/loadModel";
 import { parseSize } from "./utils/parseSize";
 
+export const filterMock = {
+        query: "",  
+        status: "",    
+        type: "",       
+        tag: "",          
+        baseModel: "",   
+        loraMin: "",    
+        loraMax: "",     
+        sizeMin: "",     
+        sizeMax: "",    
+    };
+
+ export const defaultFilters = {
+        query: "",
+        status: "",
+        type: "",
+        tag: "",
+        baseModel: "",
+        loraMin: "",
+        loraMax: "",
+        sizeMin: "",
+        sizeMax: "",
+    };
+
 export const columsMock = [
   {
     id: "name",
-    label: t("models.name"),
+    label: 'test',//()=>t("models.name"),
     visible: true,
     render: (model: Model) => model.name
   },
   {
     id: "description",
-    label: t("models.description"),
+    label: ()=>t("models.description"),
     visible: true,
     render: (model: Model) => model.description
   },
   {
     id: "baseModel",
-    label: t("models.base"),
+    label: ()=>t("models.base"),
     visible: true,
     render: (model: Model) => model.baseModel
   },
   {
     id: "version",
-    label: t("models.version"),
+    label: ()=>t("models.version"),
     visible: true,
     render: (model: Model) => model.version
   },
   {
     id: "loraCount",
-    label: t("models.lora"),
+    label: ()=>t("models.lora"),
     visible: true,
     render: (model: Model) => model.loraCount
   },
   {
     id: "status",
-    label: t("models.status"),
+    label: ()=>t("models.status"),
     visible: true,
     render: (model: Model) => (
       <Badge color={model.status === "ready" ? "green" : "amber"}>
@@ -50,7 +74,7 @@ export const columsMock = [
   },
   {
     id: "actions",
-    label: t("models.actions"),
+    label:()=> t("models.actions"),
     visible: true,
     render: (model: Model) => (
       <Button
@@ -64,31 +88,31 @@ export const columsMock = [
   },
   {
     id: "id",
-    label: t("models.id"),
+    label: ()=>t("models.id"),
     visible: true,
     render: (model: Model) => model.id
   },
   {
     id: "type",
-    label: t("models.type"),
+    label: ()=>t("models.type"),
     visible: true,
     render: (model: Model) => model.type
   },
   {
     id: "size",
-    label: t("models.size"),
+    label: ()=>t("models.size"),
     visible: true,
     render: (model: Model) => formatSize(model.size)
   },
   {
     id: "details",
-    label: t("models.details"),
+    label: ()=>t("models.details"),
     visible: true,
     render: (model: Model) => model.details
   },
   {
     id: "tags",
-    label: t("models.tags"),
+    label:()=> t("models.tags"),
     visible: true,
     render: (model: Model) => (
       <Flex gap="2" wrap="wrap">
@@ -118,7 +142,7 @@ export const models = [
     "baseModel": "gpt2",
     "version": "1.0.0",
     "loraCount": 0,
-    "status": "ready",
+    "status": "loading",
     "type": "causal-lm",
     "tags": ["general", "baseline"],
     "size": "124M",

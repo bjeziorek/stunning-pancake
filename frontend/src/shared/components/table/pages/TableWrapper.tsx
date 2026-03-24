@@ -2,168 +2,54 @@
 import { Button, Card, DropdownMenu, Flex, Select, Spinner, Table, Text, TextField } from "@radix-ui/themes";
 import { t } from "i18next";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { Header } from "@radix-ui/themes/components/table";
 
 import * as Collapsible from "@radix-ui/react-collapsible";
-import { modelsDBstub } from "@/modules/models/mock/modelsDB";
 import type { Model } from "@/modules/models/types/Models";
+import { defaultFilters } from "@/modules/models/mock/modelsDB";
+import { useSort } from "../hooks/useSort";
+import { useFilter } from "../hooks/useFilter";
+import { usePagination } from "../hooks/usePagination";
+import { useColumns } from "../hooks/useColumns";
 
 
 
-interface TableWrapperPoprs{
+interface TableWrapperProps {
     columns: any,
-    data: any
+    data: any,
+    filters: any
 }
 
-export default function TableWrapper(props:TableWrapperPoprs) {
+export default function TableWrapper(props: TableWrapperProps) {
+
+    // PROPS
+    const { columns: propCols, data: propData, filters: propFilters } = props;
+
+    // STATES
+    const [models, setModels] = useState(propData)
     const [search, setSearch] = useState("");
     const [open, setOpen] = useState(false);
-    const [filters, setFilters] = useState({
-        query: "",  
-        status: "",    
-        type: "",       
-        tag: "",          
-        baseModel: "",   
-        loraMin: "",    
-        loraMax: "",     
-        sizeMin: "",     
-        sizeMax: "",    
-    });
-
-    const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
-    const [sort, setSort] = useState({
-        column: null,     // np. "name", "size", "status"
-        direction: "asc", 
-    });
-
-    const [dragged, setDragged] = useState(null);
 
 
-    const [columns, setColumns] = useState(props.columns);
-
-    const [isPending, startTransition] = useTransition();
-
-
-    const handleReset = () => {
-        startTransition(() => {
-            setFilters(defaultFilters);
-        });
-    };
-
-    // todo: tu ma wczytać z kontekstu czy serwi set demo czy full
-    // eslint-disable-next-line prefer-const
-    let serviceStatus = 'demo';
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let models: any[] = [];
-    if (serviceStatus === 'demo') {
-        models = modelsDBstub
-    }
-
-    const toggleSort = (column) => {
-  setSort((prev) => {
-
-    if (prev.column === column) {
-      return {
-        column,
-        direction: prev.direction === "asc" ? "desc" : "asc",
-      };
-    }
-
-    return {
-      column,
-      direction: "asc",
-    };
-  });
-};
-
-
-const handleDrop = (targetKey) => {
-  if (!dragged) return;
-
-  const newOrder = [...columns];
-  const fromIndex = newOrder.findIndex(c => c.id === dragged);
-  const toIndex = newOrder.findIndex(c => c.id === targetKey);
-
-  const [moved] = newOrder.splice(fromIndex, 1);
-  newOrder.splice(toIndex, 0, moved);
-
-  setColumns(newOrder);
-  setDragged(null);
-};
-
-    const filteredModels = models
-        .filter(m =>
-            JSON.stringify(m).toLowerCase().includes(search.toLowerCase())
-        )
-        .filter(m => {
-            if (filters.query && !(
-                m.name.toLowerCase().includes(filters.query.toLowerCase()) ||
-                m.description.toLowerCase().includes(filters.query.toLowerCase())
-            )) return false;
-
-            if (filters.status && filters.status !== '__all__' && m.status !== filters.status) return false;
-
-            if (filters.type && filters.type !== '__all__' && m.type !== filters.type) return false;
-
-            if (filters.tag && !m.tags.includes(filters.tag)) return false;
-
-            if (filters.baseModel && !m.baseModel.toLowerCase().includes(filters.baseModel.toLowerCase())) return false;
-
-            if (filters.loraMin && m.loraCount < Number(filters.loraMin)) return false;
-            if (filters.loraMax && m.loraCount > Number(filters.loraMax)) return false;
-
-            if (filters.sizeMin && Number(m.size) < Number(filters.sizeMin)) return false;
-            if (filters.sizeMax && Number(m.size) > Number(filters.sizeMax)) return false;
-
-            return true;
-        });
-
-        const sorted = [...filteredModels].sort((a, b) => {
-  if (!sort.column) return 0;
-
-  const col = sort.column;
-  const dir = sort.direction === "asc" ? 1 : -1;
-
-  const valA = a[col];
-  const valB = b[col];
-
-  if (typeof valA === "number" && typeof valB === "number") {
-    return (valA - valB) * dir;
-  }
-
-  return String(valA).localeCompare(String(valB)) * dir;
-});
-
-    const total = sorted.length;
-    const totalPages = Math.ceil(total / pageSize);
-
-    const start = (page - 1) * pageSize;
-    const end = start + pageSize;
-
-    const paginated = sorted.slice(start, end);
-
-
-    const defaultFilters = {
-        query: "",
-        status: "",
-        type: "",
-        tag: "",
-        baseModel: "",
-        loraMin: "",
-        loraMax: "",
-        sizeMin: "",
-        sizeMax: "",
-    };
-
-    const toggleColumn = (id: string) => {
-        setColumns(cols =>
-            cols.map(col =>
-                col.id === id ? { ...col, visible: !col.visible } : col
-            )
-        );
-    };
+    // HOOKS
+    const { filtered, filters, setFilters,
+        handleReset,
+        isPending,
+        startTransition } = useFilter(models, search, propFilters, defaultFilters);
+    const { sortedData, sort, setSort, toggleSort } = useSort(filtered)
+    const { paginated,
+        page,
+        setPage,
+        totalPages,
+        pageSize,
+        setPageSize } = usePagination(sortedData)
+    const { toggleColumn,
+        columns,
+        setColumns,
+        handleDrop,
+        dragged,
+        setDragged } = useColumns(propCols)
 
     return (
         <>
@@ -335,22 +221,22 @@ const handleDrop = (targetKey) => {
                         Następna
                     </Button>
                     <Select.Root
-                    value={String(pageSize)}
-                    onValueChange={(v) => {
-                        setPageSize(Number(v));
-                        setPage(1);
-                    }}
-                >
-                    <Select.Trigger />
-                    <Select.Content>
-                        <Select.Item value="4">4</Select.Item>
-                        <Select.Item value="10">10</Select.Item>
-                        <Select.Item value="20">20</Select.Item>
-                        <Select.Item value="50">50</Select.Item>
-                    </Select.Content>
-                </Select.Root>
+                        value={String(pageSize)}
+                        onValueChange={(v) => {
+                            setPageSize(Number(v));
+                            setPage(1);
+                        }}
+                    >
+                        <Select.Trigger />
+                        <Select.Content>
+                            <Select.Item value="4">4</Select.Item>
+                            <Select.Item value="10">10</Select.Item>
+                            <Select.Item value="20">20</Select.Item>
+                            <Select.Item value="50">50</Select.Item>
+                        </Select.Content>
+                    </Select.Root>
                 </Flex>
-                
+
                 <DropdownMenu.Root>
                     <DropdownMenu.Trigger>
                         <Button variant="soft">{t("models.columns")}</Button>
@@ -373,13 +259,13 @@ const handleDrop = (targetKey) => {
                     <Table.Header>
                         <Table.Row>
                             {columns.filter(c => c.visible).map(col => (
-                                <Table.ColumnHeaderCell 
-                                key={col.id} 
-                                draggable
-                                onDragStart={() => setDragged(col.id)}
-                                onDragOver={(e) => e.preventDefault()}
-                                onDrop={() => handleDrop(col.id)}
-                                onClick={() => toggleSort(col.id)}
+                                <Table.ColumnHeaderCell
+                                    key={col.id}
+                                    draggable
+                                    onDragStart={() => setDragged(col.id)}
+                                    onDragOver={(e) => e.preventDefault()}
+                                    onDrop={() => handleDrop(col.id)}
+                                    onClick={() => toggleSort(col.id)}
                                 >
                                     {col.label} {sort.column === col.id && (sort.direction === "asc" ? "▲" : "▼")}
                                 </Table.ColumnHeaderCell>
