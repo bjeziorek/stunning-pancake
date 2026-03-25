@@ -1,17 +1,19 @@
 import { Button, DropdownMenu, Flex, Select, Text } from "@radix-ui/themes";
 import { t } from "i18next";
+import type { TablePaginationPage, TablePaginationPageSize, TablePaginationSetPage, TablePaginationSetPageSize, TablePaginationTotalPages } from "../types/pagination";
+import type { TableColumnsColumns, TableColumnsToggleColumn } from "../types/columns";
 
-interface TableMenuProps {
-    page: any,
-    setPage: any,
-    totalPages: any,
-    setPageSize: any,
-    pageSize: any,
-    columns: any,
-    toggleColumn: any
+interface TableMenuProps<T> {
+    page: TablePaginationPage,
+    setPage: TablePaginationSetPage,
+    totalPages: TablePaginationTotalPages,
+    setPageSize: TablePaginationSetPageSize,
+    pageSize: TablePaginationPageSize,
+    columns: TableColumnsColumns<T>,
+    toggleColumn: TableColumnsToggleColumn
 }
 
-export function TableMenu(props: TableMenuProps) {
+export function TableMenu<T>(props: TableMenuProps<T>) {
     const {
         page,
         setPage,
@@ -41,23 +43,6 @@ export function TableMenu(props: TableMenuProps) {
                     ))}
                 </DropdownMenu.Content>
             </DropdownMenu.Root>
-            {/* <DropdownMenu.Root>
-                <DropdownMenu.Trigger>
-                    <Button variant="soft">{t("models.columns")}</Button>
-                </DropdownMenu.Trigger>
-
-                <DropdownMenu.Content>
-                    {columns.map(col => (
-                        <DropdownMenu.CheckboxItem
-                            key={col.id}
-                            checked={col.visible}
-                            onCheckedChange={() => toggleColumn(col.id)}
-                        >
-                            {col.label}
-                        </DropdownMenu.CheckboxItem>
-                    ))}
-                </DropdownMenu.Content>
-            </DropdownMenu.Root> */}
 
             <Button
                 variant="soft"

@@ -1,14 +1,15 @@
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { Button, Flex, Select, Spinner, TextField } from "@radix-ui/themes";
 import { t } from "i18next";
+import type { TableFiltersFilters, TableFiltersHandleReset, TableFiltersIsPending, TableFiltersOpen, TableFiltersSetFilters, TableFiltersSetOpen } from "../types/filters";
 
 interface FiltersProps {
-    open: any,
-    setOpen: any,
-    isPending: any,
-    filters: any,
-    setFilters: any,
-    handleReset: any
+    open: TableFiltersOpen,
+    setOpen: TableFiltersSetOpen,
+    isPending: TableFiltersIsPending,
+    filters: TableFiltersFilters,
+    setFilters: TableFiltersSetFilters,
+    handleReset: TableFiltersHandleReset
 }
 
 

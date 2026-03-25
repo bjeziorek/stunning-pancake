@@ -1,17 +1,21 @@
 import { Table } from "@radix-ui/themes";
 import { TableBody } from "./components/TableBody";
 import { TableHeader } from "./components/TableHeader";
+import type { TableColumnsColumns } from "../../types/columns";
+import type { TableData } from "../../types/data";
+import type { TableSortSort, TableSortToggleSort } from "../../types/sort";
+import type { TableDragHandleDrop, TableDragSetDragged } from "../../types/drag";
 
-interface TableFullProps {
-    columns: any,
-    setDragged: any,
-    handleDrop: any,
-    toggleSort: any,
-    sort: any,
-    paginated: any
+interface TableFullProps<Column,Data> {
+    columns: TableColumnsColumns<Column>,
+    setDragged: TableDragSetDragged,
+    handleDrop: TableDragHandleDrop,
+    toggleSort: TableSortToggleSort,
+    sort: TableSortSort,
+    paginated: TableData<Data>
 }
 
-export function TableFull(props: TableFullProps) {
+export function TableFull(props: TableFullProps<Column,Data>) {
     const {
         columns,
         setDragged,

@@ -1,9 +1,10 @@
 import { Flex, TextField } from "@radix-ui/themes";
 import { t } from "i18next";
+import type { TableSearchSearch, TableSearchSetSearch } from "../types/search";
 
 interface SimpleSearchProps {
-    search: any,
-    setSearch: any
+    search: TableSearchSearch,
+    setSearch: TableSearchSetSearch
 }
 
 export function SimpleSearch(props: SimpleSearchProps) {

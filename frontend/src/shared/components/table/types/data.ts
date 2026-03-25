@@ -1,0 +1,1 @@
+export type TableData<T> = T[];

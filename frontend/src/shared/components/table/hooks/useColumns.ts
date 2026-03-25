@@ -1,18 +1,18 @@
 import { useCallback, useState } from "react";
 
-export function useColumns (propCols){
-  const [columns, setColumns] = useState(propCols);
- const [dragged, setDragged] = useState(null);
+export function useColumns(propCols) {
+    const [columns, setColumns] = useState(propCols);
+    const [dragged, setDragged] = useState(null);
 
-const toggleColumn = useCallback((id: string) => {
+    const toggleColumn = useCallback((id: string) => {
         setColumns(cols =>
             cols.map(col =>
                 col.id === id ? { ...col, visible: !col.visible } : col
             )
         );
-    },[]);
+    }, []);
 
-    const handleDrop = useCallback((targetKey) => {
+    const handleDrop = useCallback((targetKey: string) => {
         if (!dragged) return;
 
         const newOrder = [...columns];
@@ -24,11 +24,11 @@ const toggleColumn = useCallback((id: string) => {
 
         setColumns(newOrder);
         setDragged(null);
-    },[columns, dragged]);
+    }, [columns, dragged]);
 
     return {
         toggleColumn,
-        columns, 
+        columns,
         setColumns,
         handleDrop,
         dragged,

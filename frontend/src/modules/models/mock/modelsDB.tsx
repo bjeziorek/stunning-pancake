@@ -7,7 +7,20 @@ import { formatSize } from "./utils/formatSize";
 import { loadModel } from "./utils/loadModel";
 import { parseSize } from "./utils/parseSize";
 
-export const filterMock = {
+export interface FiltersMock {
+  query: string
+  status: string
+  type: string
+  tag: string
+  baseModel: string
+  loraMin: string
+  loraMax: string
+  sizeMin: string
+  sizeMax: string
+}
+
+
+export const filterMock:FiltersMock = {
         query: "",  
         status: "",    
         type: "",       
@@ -19,7 +32,7 @@ export const filterMock = {
         sizeMax: "",    
     };
 
- export const defaultFilters = {
+ export const defaultFilters:FiltersMock = {
         query: "",
         status: "",
         type: "",
@@ -30,6 +43,21 @@ export const filterMock = {
         sizeMin: "",
         sizeMax: "",
     };
+
+export interface Model2 {
+  id: number
+  name: string
+  description: string
+  baseModel: string
+  version: string
+  loraCount: number
+  status: string
+  type: string
+  tags: string[]
+  size: number
+  details: string
+}
+
 
 export const columsMock = [
   {

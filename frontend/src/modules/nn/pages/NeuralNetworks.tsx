@@ -1,23 +1,24 @@
-import {  Text} from "@radix-ui/themes";
+import { Text } from "@radix-ui/themes";
 import { t } from "i18next";
 import { OfflineWrapper } from "../../../shared/components/OfflineWrapper";
 import { TestDemo } from "../demoInfo/TestDemo";
-import { columsMock, filterMock, modelsDBstub } from "../../models/mock/modelsDB";
 import { TableWrapper } from "@/shared/components";
+import type { TableColumnsColumns } from "@/shared/components/table/types/columns";
+import { filterMock, newData, newDataColumns, type NewData } from "./testMock";
 
 export default function NeuralNetworks() {
 
-    const cols = columsMock;
-    const data = modelsDBstub;
+    const cols: TableColumnsColumns<NewData> = newDataColumns;
+    const data: NewData[] = newData;
 
-    return(
+    return (
         <>
-        <Text>{t("nn.testowyTekstNN")}</Text>
-        <OfflineWrapper>
-            <TestDemo/>
-        </OfflineWrapper>
-        <Text>costam costam</Text>
-        <TableWrapper columns={cols} data={data} filters={filterMock}/>
+            <Text>{t("nn.testowyTekstNN")}</Text>
+            <OfflineWrapper>
+                <TestDemo />
+            </OfflineWrapper>
+            <Text>costam costam</Text>
+            <TableWrapper columns={cols} data={data} filters={filterMock} />
         </>
     )
 }

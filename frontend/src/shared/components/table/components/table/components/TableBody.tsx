@@ -1,9 +1,11 @@
 import type { Model } from "@/modules/models/types/Models"
 import { Table } from "@radix-ui/themes"
+import type { TableColumnsColumns } from "../../../types/columns";
+import type { TableData } from "../../../types/data";
 
 interface TableBodyProps {
-    paginated: any,
-    columns: any
+    paginated: TableData,
+    columns: TableColumnsColumns
 }
 
 export function TableBody(props: TableBodyProps) {
