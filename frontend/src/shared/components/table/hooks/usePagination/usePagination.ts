@@ -1,6 +1,8 @@
 import { useState } from "react";
+import type { TableData } from "../../types/data";
+import { paginate } from "./paginate";
 
-export function usePagination(sortedData) {
+export function usePagination<Data>(sortedData: TableData<Data>) {
 
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
@@ -8,10 +10,7 @@ export function usePagination(sortedData) {
     const total = sortedData.length;
     const totalPages = Math.ceil(total / pageSize);
 
-    const start = (page - 1) * pageSize;
-    const end = start + pageSize;
-
-    const paginated = sortedData.slice(start, end);
+    const paginated = paginate(sortedData,page,pageSize);
 
     return {
         paginated,

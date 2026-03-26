@@ -3,7 +3,7 @@ import { Card } from "@radix-ui/themes";
 import { useState } from "react";
 import { useSort } from "../hooks/useSort";
 import { useFilter } from "../hooks/useFilter";
-import { usePagination } from "../hooks/usePagination";
+import { usePagination } from "../hooks/usePagination/usePagination";
 import { useColumns } from "../hooks/useColumns";
 import { SimpleSearch } from "../components/SimpleSearch";
 import { Filters } from "../components/Filters";
