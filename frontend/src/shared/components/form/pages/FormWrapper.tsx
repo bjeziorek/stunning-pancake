@@ -1,5 +1,5 @@
-import { Card, Checkbox, Text, Flex, Radio, Select, RadioGroup } from "@radix-ui/themes";
-import type { FormField, FormFieldTypes } from "../types/field";
+import { Card, Checkbox, Text, Flex, Select, RadioGroup } from "@radix-ui/themes";
+import type { FormField, FormFieldTypes } from "../../../types/field";
 import { useState } from "react";
 
 interface FormWrapperProps {

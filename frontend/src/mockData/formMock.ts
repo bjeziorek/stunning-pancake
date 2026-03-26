@@ -1,4 +1,4 @@
-import type { FormField } from "@/shared/components/form/types/field";
+import type { FormField } from "@/shared/types/field";
 
 export const formMockData: FormField[] = [
     {

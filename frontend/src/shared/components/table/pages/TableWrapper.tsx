@@ -1,10 +1,10 @@
 
 import { Card } from "@radix-ui/themes";
 import { useState } from "react";
-import { useSort } from "../hooks/useSort";
-import { useFilter } from "../hooks/useFilter";
+import { useSort } from "../hooks/useSort/useSort";
+import { useFilter } from "../hooks/useFilter/useFilter";
 import { usePagination } from "../hooks/usePagination/usePagination";
-import { useColumns } from "../hooks/useColumns";
+import { useColumns } from "../hooks/useColumns/useColumns";
 import { SimpleSearch } from "../components/SimpleSearch";
 import { Filters } from "../components/Filters";
 import { TableMenu } from "../components/TableMenu";

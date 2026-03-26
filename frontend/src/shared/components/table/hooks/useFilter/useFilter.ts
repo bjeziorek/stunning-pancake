@@ -1,8 +1,9 @@
 
 import { useCallback, useMemo, useState, useTransition } from "react";
-import type { TableData } from "../types/data";
-import type { TableSearchSearch } from "../types/search";
-import type { TableFiltersFilters } from "../types/filters";
+import type { TableData } from "../../types/data";
+import type { TableSearchSearch } from "../../types/search";
+import type { TableFiltersFilters } from "../../types/filters";
+import { filter } from "./utils/filter";
 
 export function useFilter<Data,Filters>(
     data:TableData<Data>, 
@@ -14,8 +15,7 @@ export function useFilter<Data,Filters>(
     const [filters, setFilters] = useState(propFilters);
     const [isPending, startTransition] = useTransition();
 
-    const filterFn1 = useCallback((m:Data) =>
-        JSON.stringify(m).toLowerCase().includes(search.toLowerCase()), [search]);
+    const filterFn1 = useCallback((m:Data) => filter(m,search), [search]);
 
 
     // const filterFn2 = useCallback((m) => {

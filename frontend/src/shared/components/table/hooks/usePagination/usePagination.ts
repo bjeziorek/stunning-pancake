@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { TableData } from "../../types/data";
-import { paginate } from "./paginate";
+import { paginate } from "./utils/paginate";
 
 export function usePagination<Data>(sortedData: TableData<Data>) {
 
