@@ -6,8 +6,6 @@ interface FormWrapperProps {
     formConfig: FormField[]
 }
 
-
-
 export function FormWrapper(props: FormWrapperProps) {
     const { formConfig: formConfig } = props;
     const [form, setForm] = useState(
@@ -21,10 +19,12 @@ export function FormWrapper(props: FormWrapperProps) {
     };
     return (
         <Card>
+            <Flex direction="column" gap="4" align="start">
             {formConfig.map((item: FormField) => {
                 switch (item.type as FormFieldTypes) {
                     case "checkbox": return (
                         <Text as="label" size="2">
+                            <p>{item.label}</p>
                             <Flex gap="2">
                                 <Checkbox checked={form[item.fieldId] === "true"}
                                     onCheckedChange={(checked) =>
@@ -103,9 +103,10 @@ export function FormWrapper(props: FormWrapperProps) {
                         </Flex>
                     )
                     case "radio": return (
-                        <Flex asChild gap="2">
+                        <Flex asChild gap="2" direction="column">
+                            
                             <Text as="label" size="2">
-
+                            <p>{item.label}</p>
                                 <RadioGroup.Root defaultValue={item.defaultValue} name="example"
                                     value={form[item.fieldId]}
                                     onValueChange={val => update(item.fieldId, val)}
@@ -116,6 +117,8 @@ export function FormWrapper(props: FormWrapperProps) {
                         </Flex>
                     )
                     case "select": return (
+                    <Flex direction="column">
+                    <p>{item.label}</p>
                         <Select.Root
                             defaultValue={item.defaultValue}
                             value={form[item.fieldId]}
@@ -129,6 +132,7 @@ export function FormWrapper(props: FormWrapperProps) {
                                 </Select.Group>
                             </Select.Content>
                         </Select.Root>
+                        </Flex>
                     )
                     case "text": return (
                         <Flex direction="column" gap="1">
@@ -167,7 +171,7 @@ export function FormWrapper(props: FormWrapperProps) {
                                 placeholder={item.placeholder}
                                 rows={4}
                                 style={{
-                                    padding: "8px 10px",
+                                    padding: "8px 16px",
                                     borderRadius: "6px",
                                     border: "1px solid var(--gray-6)",
                                     backgroundColor: "var(--color-panel-solid)",
@@ -196,6 +200,7 @@ export function FormWrapper(props: FormWrapperProps) {
                 }
 
             })}
+            </Flex>
         </Card >
     )
 }
