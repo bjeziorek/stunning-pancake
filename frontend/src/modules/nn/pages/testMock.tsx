@@ -2,7 +2,7 @@ import { t } from "i18next"
 import { TagIcon } from "lucide-react";
 import { Badge, Button, Flex, Tooltip } from "@radix-ui/themes";
 import type { TableColumnsColumns } from "@/shared/components/table/types/columns";
-import { loadModel } from "@/modules/models/mock/utils/loadModel";
+import { loadModel } from "@/mockData/utils/loadModel";
 
 
 export interface FiltersMock {

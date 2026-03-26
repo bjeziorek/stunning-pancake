@@ -12,7 +12,7 @@ export function useSort<Data>(data:TableData<Data>) {
     const sortFn = useCallback((a, b) => {
         if (!sort.column) return 0;
 
-        const col = sort.column;
+        const col = sort.column.id;
         const dir = sort.direction === "asc" ? 1 : -1;
 
         const valA = a[col];
