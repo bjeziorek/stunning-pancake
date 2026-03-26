@@ -21,7 +21,7 @@ export default function Topbar({ onLanguageChange, isAnimating }: TopbarProps) {
   const [showThemeInfo, setShowThemeInfo] = useState(false);
 
   const handleClick = () => {
-    onLanguageChange(); 
+    onLanguageChange();
   };
 
   return (
@@ -36,53 +36,69 @@ export default function Topbar({ onLanguageChange, isAnimating }: TopbarProps) {
       transition={{ duration: 0.25 }}
     >
       <header >
-        <Flex gap="4">
-          <Button onClick={() => setEnabled(!enabled)}>
-            {enabled?(<Unplug /> ):(<Plug/>)}
-            {enabled?(<Text>{t('topbar.disconnect')}</Text> ):(<Text>{t('topbar.connect')}</Text> )}
+        <Flex gap="4" align="center" >
+          <Button onClick={() => setEnabled(!enabled)} variant="ghost">
+            {enabled ? (<Unplug />) : (<Plug />)}
+            {enabled ? (<Text>{t('topbar.disconnect')}</Text>) : (<Text>{t('topbar.connect')}</Text>)}
           </Button>
-        
-           {enabled ? (
-      online ? (
-        <div style={{ width: 20, height: 20, borderRadius: "50%", background: "green" }} />
-      ) : (
-        <Spinner size="3" />
-      )
-    ) : (
-      <div style={{ width: 20, height: 20, borderRadius: "50%", background: "red" }} />
-    )}
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger asChild>
-              <Button variant="outline">
-                <Languages /> {i18n.language.toUpperCase()}
-              </Button>
-            </DropdownMenu.Trigger>
 
-            <DropdownMenu.Content
-              side="bottom"
-              align="end"
-              className="rounded-md bg-white dark:bg-gray-800 shadow-lg p-2"
-            >
-              <DropdownMenu.Item asChild>
-
-                <motion.button
-                  onClick={handleClick}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-3 py-2 w-full text-left hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                >
-                  {t("topbar.switch")}
-                </motion.button>
-              </DropdownMenu.Item>
-            </DropdownMenu.Content>
-          </DropdownMenu.Root>
+<Flex gap="2" align="center">
+          {enabled ? (
+            online ? (
+              <div style={{ width: 14, height: 14, borderRadius: "50%", background: "green" }} />
+            ) : (
+              <Spinner size="2" />
+            )
+          ) : (
+            <div style={{ width: 14, height: 14, borderRadius: "50%", background: "red" }} />
+          )}
+             {enabled ? (
+            online ? (
+              <Text>{t("topbar.online")}</Text>
+            ) : (
+              <Text>{t("topbar.connecting")}</Text>
+            )
+          ) : (
+           <Text>{t("topbar.offline")}</Text>
+          )}
+          </Flex>
         </Flex>
       </header>
-      <button
-        onClick={() => setShowThemeInfo(true)}
-        className="p-2 rounded hover:bg-[var(--gray-4)]"
-      >
-        <Palette size={18} />
-      </button>
+
+      <Flex gap="4" align="center">
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild>
+            <Button variant="ghost">
+              {i18n.language.toUpperCase()}
+            </Button>
+          </DropdownMenu.Trigger>
+
+          <DropdownMenu.Content
+            side="bottom"
+            align="end"
+            className="rounded-md bg-white dark:bg-gray-800 shadow-lg p-2"
+          >
+            <DropdownMenu.Item asChild>
+              <motion.button
+                onClick={handleClick}
+                whileTap={{ scale: 0.95 }}
+                className="px-3 py-2 w-full text-left hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+              >
+                {i18n.language.toUpperCase() === "PL" ? "EN" : "PL"}
+              </motion.button>
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+
+        <Button
+        variant="ghost"
+          onClick={() => setShowThemeInfo(true)}
+          className="p-2 rounded hover:bg-[var(--gray-4)]"
+        >
+          <Palette size={20} />
+        </Button>
+      </Flex>
+
       {showThemeInfo && (
         <motion.div
           initial={{ opacity: 0 }}

@@ -11,6 +11,9 @@
   },
   "topbar": {
     "language": "Język",
+    "online": "Połączono z serwerm",
+    "offline": "Rozłączono z serwerem",
+    "connecting": "Trwa łączenie...",
     "connection": "Połączenie z serwerem",
     "connect": "Połącz",
     "disconnect": "Rozłącz",
@@ -24,10 +27,10 @@
   },
   "models": {
     "models": "Modele",
-    "columns":"Kolumny",
-    "searchSimplePlaceholder":"Szukaj w modelach...",
-    "advancedFiltering":"Zaawansowane filtrowanie",
-    "reset":"Wyczyść",
+    "columns": "Kolumny",
+    "searchSimplePlaceholder": "Szukaj w modelach...",
+    "advancedFiltering": "Zaawansowane filtrowanie",
+    "reset": "Wyczyść",
     "description": "Opis",
     "name": "Nazwa",
     "base": "Podstawa",
@@ -36,10 +39,10 @@
     "status": "Status",
     "id": "ID",
     "type": "Typ",
-    "tags":"Tagi",
-    "size":"Rozmiar",
-    "details":"Szczegóły",
-    "load":"Załaduj",
-    "actions":"Akcje"
+    "tags": "Tagi",
+    "size": "Rozmiar",
+    "details": "Szczegóły",
+    "load": "Załaduj",
+    "actions": "Akcje"
   }
 }

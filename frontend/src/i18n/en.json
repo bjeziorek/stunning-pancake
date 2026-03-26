@@ -11,6 +11,9 @@
   },
   "topbar": {
     "language": "Language",
+    "online": "Disconnected",
+    "offline": "Connected",
+    "connecting": "Connecting...",
     "connection": "Server connetion",
     "connect": "Connect",
     "disconnect": "Disconnect",
