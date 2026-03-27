@@ -1,5 +1,5 @@
 import { Table } from "@radix-ui/themes"
-import type { TableColumnsColumns } from "../../../types/columns";
+import type { TableColumnsColumn, TableColumnsColumns } from "../../../types/columns";
 import type { TableSortSort, TableSortToggleSort } from "../../../types/sort";
 import type { TableDragHandleDrop, TableDragSetDragged } from "../../../types/drag";
 
@@ -17,16 +17,16 @@ export function TableHeader<Data>(props: TableHeaderProps<Data>) {
     return (
         <Table.Header>
             <Table.Row>
-                {columns.filter(c => c.visible).map(col => (
+                {columns.filter(c => c.visible).map((col:TableColumnsColumn<Data>) => (
                     <Table.ColumnHeaderCell
-                        key={col.id}
+                        key={col.id.toString()}
                         draggable
                         onDragStart={() => setDragged(col.id)}
                         onDragOver={(e) => e.preventDefault()}
                         onDrop={() => handleDrop(col.id)}
                         onClick={() => toggleSort(col.id)}
                     >
-                        {col.label} {sort.column === col.id && (sort.direction === "asc" ? "▲" : "▼")}
+                        {col.label} {sort.column?.id === col.id && (sort.direction === "asc" ? "▲" : "▼")}
                     </Table.ColumnHeaderCell>
                 ))}
             </Table.Row>

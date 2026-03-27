@@ -7,15 +7,15 @@ import type { TableSortSort, TableSortToggleSort } from "../../types/sort";
 import type { TableDragHandleDrop, TableDragSetDragged } from "../../types/drag";
 
 interface TableFullProps<Column,Data> {
-    columns: TableColumnsColumns<Column>,
+    columns: TableColumnsColumns<Data>,
     setDragged: TableDragSetDragged,
     handleDrop: TableDragHandleDrop,
     toggleSort: TableSortToggleSort,
-    sort: TableSortSort,
+    sort: TableSortSort<Data>,
     paginated: TableData<Data>
 }
 
-export function TableFull(props: TableFullProps<Column,Data>) {
+export function TableFull<Column,Data>(props: TableFullProps<Column,Data>) {
     const {
         columns,
         setDragged,
