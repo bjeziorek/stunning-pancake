@@ -25,6 +25,9 @@ export function TableMenu<T>(props: TableMenuProps<T>) {
     } = props;
 
     return (
+        <>
+        <h2 className="sr-only">{t("table.tablemenu")}</h2>
+        <h2 >to jest tablemenu</h2>
         <Flex gap="3" align="center" mt="4">
             <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
@@ -77,6 +80,6 @@ export function TableMenu<T>(props: TableMenuProps<T>) {
                 </Select.Content>
             </Select.Root>
         </Flex>
-
+</>
     )
 }

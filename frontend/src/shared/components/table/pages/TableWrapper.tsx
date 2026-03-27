@@ -13,11 +13,12 @@ import type { TableData } from "../types/data";
 import type { TableFiltersFilters } from "../types/filters";
 import type { TableColumnsColumns } from "../types/columns";
 import { defaultFilters } from "@/modules/nn/pages/testMock";
+import { useTranslation } from "react-i18next";
 
 
 
 interface TableWrapperProps<Column,Data,Filters> {
-    columns: TableColumnsColumns<Column>,
+    columns: TableColumnsColumns<Data>,
     data: TableData<Data>,
     filters: TableFiltersFilters<Filters>
 }
@@ -33,6 +34,7 @@ export default function TableWrapper<Column,Data,Filters>(props: TableWrapperPro
 
 
     // HOOKS
+    const { t } = useTranslation();
     const { filtered, filters, setFilters,
         handleReset,
         isPending } = useFilter<Data,Filters>(propData, search, propFilters, defaultFilters);
@@ -50,6 +52,9 @@ export default function TableWrapper<Column,Data,Filters>(props: TableWrapperPro
 
     return (
         <>
+         {/* <h2 >table wrapper test</h2> */}
+         <h2 className='sr-only'>table wrapper test</h2>
+         <h2 className='sr-only'>{t("table.tablemenu")}</h2>
             <Card>
                 <SimpleSearch search={search} setSearch={setSearch}></SimpleSearch>
                 <Filters open={open} setOpen={setOpen} isPending={isPending} filters={filters} setFilters={setFilters} handleReset={handleReset} ></Filters>

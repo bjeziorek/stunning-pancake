@@ -10,7 +10,7 @@ interface TableFullProps<Column,Data> {
     columns: TableColumnsColumns<Data>,
     setDragged: TableDragSetDragged,
     handleDrop: TableDragHandleDrop,
-    toggleSort: TableSortToggleSort,
+    toggleSort: TableSortToggleSort<Data>,
     sort: TableSortSort<Data>,
     paginated: TableData<Data>
 }

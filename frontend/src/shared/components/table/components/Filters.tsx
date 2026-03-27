@@ -3,17 +3,17 @@ import { Button, Flex, Select, Spinner, TextField } from "@radix-ui/themes";
 import { t } from "i18next";
 import type { TableFiltersFilters, TableFiltersHandleReset, TableFiltersIsPending, TableFiltersOpen, TableFiltersSetFilters, TableFiltersSetOpen } from "../types/filters";
 
-interface FiltersProps {
+interface FiltersProps<Filters> {
     open: TableFiltersOpen,
     setOpen: TableFiltersSetOpen,
     isPending: TableFiltersIsPending,
-    filters: TableFiltersFilters,
-    setFilters: TableFiltersSetFilters,
+    filters: TableFiltersFilters<Filters>,
+    setFilters: TableFiltersSetFilters<Filters>,
     handleReset: TableFiltersHandleReset
 }
 
 
-export function Filters(props: FiltersProps) {
+export function Filters<Filters>(props: FiltersProps<Filters>) {
     const { open, setOpen, isPending, filters, setFilters, handleReset } = props;
 
 
@@ -141,9 +141,7 @@ export function Filters(props: FiltersProps) {
                                 <Flex gap="2" mt="2">
                                     <Button variant="soft" onClick={handleReset}>{t("models.reset")}</Button>
                                 </Flex>
-
                             </Flex>
-
                         </Flex>
                     </div>
                 </Collapsible.Content>

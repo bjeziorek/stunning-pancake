@@ -5,4 +5,4 @@ export type TableSortSort<Data> = {
     column: TableColumnsColumn<Data> | null,
     direction: TableSortDirection,
 };
-export type TableSortToggleSort = () => void;
+export type TableSortToggleSort<Data> = (column: TableColumnsColumn<Data> | null) => void;

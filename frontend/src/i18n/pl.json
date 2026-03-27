@@ -44,5 +44,8 @@
     "details": "Szczegóły",
     "load": "Załaduj",
     "actions": "Akcje"
+  },
+  "table": {
+    "tablemenu": "Menu Tabeli"
   }
 }
