@@ -1,7 +1,7 @@
 import type { TableColumnsColumn } from "../../../types/columns";
 import type { TableSortSort } from "../../../types/sort";
 
-export function toggleSort<Data>(
+export function toggleSortState<Data>(
   prev: TableSortSort<Data>,
   column: TableColumnsColumn<Data> | null
 ): TableSortSort<Data> {

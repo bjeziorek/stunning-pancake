@@ -2,8 +2,8 @@ import { useCallback, useMemo, useState } from "react";
 import type { TableData } from "../../types/data";
 import type { TableColumnsColumn } from "../../types/columns";
 import type { TableSortSort } from "../../types/sort";
-import { sortColumn } from './utils/sort'
-import { toggleSort as toggleSortFn } from './utils/toggleSort'
+import { sortColumn } from './utils/sortColumn'
+import { toggleSortState } from './utils/toggleSortState'
 
 export function useSort<Data>(data: TableData<Data>) {
     const [sort, setSort] = useState<TableSortSort<Data>>({
@@ -18,7 +18,7 @@ export function useSort<Data>(data: TableData<Data>) {
 
     const sortedData = useMemo(() => [...data].sort(sortFn), [data, sortFn]);
     const toggleSort = useCallback((column: TableColumnsColumn<Data> | null) => {
-        setSort(prev => toggleSortFn(prev, column));
+        setSort(prev => toggleSortState(prev, column));
     }, []);
 
     return {

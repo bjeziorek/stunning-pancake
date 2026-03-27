@@ -7,7 +7,7 @@ export function reorderColumns<Data>(columns:TableColumnsColumns<Data>, fromId: 
   const fromIndex = newOrder.findIndex(c => c.id === fromId);
   const toIndex = newOrder.findIndex(c => c.id === toId);
 
-  // if (fromIndex === -1 || toIndex === -1) return newOrder;
+  if (fromIndex === -1 || toIndex === -1) return newOrder;
 
   const [moved] = newOrder.splice(fromIndex, 1);
   newOrder.splice(toIndex, 0, moved);

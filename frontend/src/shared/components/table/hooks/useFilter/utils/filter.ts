@@ -1,3 +1,3 @@
-export function filter<Data>(m: Data, search: string) {
-    return JSON.stringify(m).toLowerCase().includes(search.toLowerCase())
+export function filter<Data>(row: Data, search: string) {
+    return JSON.stringify(row).toLowerCase().includes(search.toLowerCase())
 }
