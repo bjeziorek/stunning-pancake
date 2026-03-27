@@ -57,7 +57,7 @@ export default function TableWrapper<Column,Data,Filters>(props: TableWrapperPro
          <h2 className='sr-only'>{t("table.tablemenu")}</h2>
             <Card>
                 <SimpleSearch search={search} setSearch={setSearch}></SimpleSearch>
-                <Filters open={open} setOpen={setOpen} isPending={isPending} filters={filters} setFilters={setFilters} handleReset={handleReset} ></Filters>
+                {/* <Filters open={open} setOpen={setOpen} isPending={isPending} filters={filters} setFilters={setFilters} handleReset={handleReset} ></Filters> */}
             </Card>
 
 
