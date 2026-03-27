@@ -7,13 +7,12 @@ interface TableHeaderProps <Data>{
     setDragged: TableDragSetDragged,
     handleDrop: TableDragHandleDrop,
     columns: TableColumnsColumns<Data>,
-    toggleSort: TableSortToggleSort,
+    toggleSort: TableSortToggleSort<Data>,
     sort: TableSortSort<Data>
 }
 
 export function TableHeader<Data>(props: TableHeaderProps<Data>) {
     const { setDragged, handleDrop, columns, toggleSort, sort } = props;
-
     return (
         <Table.Header>
             <Table.Row>
@@ -21,10 +20,10 @@ export function TableHeader<Data>(props: TableHeaderProps<Data>) {
                     <Table.ColumnHeaderCell
                         key={col.id.toString()}
                         draggable
-                        onDragStart={() => setDragged(col.id)}
+                        onDragStart={() => setDragged(col.id.toString())}
                         onDragOver={(e) => e.preventDefault()}
-                        onDrop={() => handleDrop(col.id)}
-                        onClick={() => toggleSort(col.id)}
+                        onDrop={() => handleDrop(col.id.toString())}
+                        onClick={() => toggleSort(col)}
                     >
                         {col.label} {sort.column?.id === col.id && (sort.direction === "asc" ? "▲" : "▼")}
                     </Table.ColumnHeaderCell>
