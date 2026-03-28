@@ -3,17 +3,17 @@ import { t } from "i18next";
 import type { TablePaginationPage, TablePaginationPageSize, TablePaginationSetPage, TablePaginationSetPageSize, TablePaginationTotalPages } from "../types/pagination";
 import type { TableColumnsColumns, TableColumnsToggleColumn } from "../types/columns";
 
-interface TableMenuProps<T> {
+interface TableMenuProps<Data> {
     page: TablePaginationPage,
     setPage: TablePaginationSetPage,
     totalPages: TablePaginationTotalPages,
     setPageSize: TablePaginationSetPageSize,
     pageSize: TablePaginationPageSize,
-    columns: TableColumnsColumns<T>,
+    columns: TableColumnsColumns<Data>,
     toggleColumn: TableColumnsToggleColumn
 }
 
-export function TableMenu<T>(props: TableMenuProps<T>) {
+export function TableMenu<Data>(props: TableMenuProps<Data>) {
     const {
         page,
         setPage,
@@ -27,7 +27,6 @@ export function TableMenu<T>(props: TableMenuProps<T>) {
     return (
         <>
         <h2 className="sr-only">{t("table.tablemenu")}</h2>
-        <h2 >to jest tablemenu</h2>
         <Flex gap="3" align="center" mt="4">
             <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
@@ -37,9 +36,9 @@ export function TableMenu<T>(props: TableMenuProps<T>) {
                 <DropdownMenu.Content>
                     {columns.map(col => (
                         <DropdownMenu.CheckboxItem
-                            key={col.id}
+                            key={col.id.toString()}
                             checked={col.visible}
-                            onCheckedChange={() => toggleColumn(col.id)}
+                            onCheckedChange={() => toggleColumn(col.id.toString())}
                         >
                             {col.label}
                         </DropdownMenu.CheckboxItem>

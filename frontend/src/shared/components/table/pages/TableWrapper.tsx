@@ -1,6 +1,6 @@
 
 import { Card } from "@radix-ui/themes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSort } from "../hooks/useSort/useSort";
 import { useFilter } from "../hooks/useFilter/useFilter";
 import { usePagination } from "../hooks/usePagination/usePagination";
@@ -14,16 +14,17 @@ import type { TableFiltersFilters } from "../types/filters";
 import type { TableColumnsColumns } from "../types/columns";
 import { defaultFilters } from "@/modules/nn/pages/testMock";
 import { useTranslation } from "react-i18next";
+import { useDebouncedValue } from "../hooks/useDebouncedValue";
 
 
 
-interface TableWrapperProps<Column,Data,Filters> {
+interface TableWrapperProps<Data extends { id: string | number; }, Filters> {
     columns: TableColumnsColumns<Data>,
     data: TableData<Data>,
     filters: TableFiltersFilters<Filters>
 }
 
-export default function TableWrapper<Column,Data,Filters>(props: TableWrapperProps<Column,Data,Filters>) {
+export default function TableWrapper<Data extends { id: string | number; }, Filters>(props: TableWrapperProps<Data, Filters>) {
 
     // PROPS
     const { columns: propCols, data: propData, filters: propFilters } = props;
@@ -33,11 +34,14 @@ export default function TableWrapper<Column,Data,Filters>(props: TableWrapperPro
     const [open, setOpen] = useState(false);
 
 
+    // CONSTS
+    const debouncedSearch = useDebouncedValue(search, 300);
+
     // HOOKS
     const { t } = useTranslation();
     const { filtered, filters, setFilters,
         handleReset,
-        isPending } = useFilter<Data,Filters>(propData, search, propFilters, defaultFilters);
+        isPending } = useFilter<Data, Filters>(propData, debouncedSearch, propFilters, defaultFilters);
     const { sortedData, sort, toggleSort } = useSort(filtered)
     const { paginated,
         page,
@@ -50,11 +54,15 @@ export default function TableWrapper<Column,Data,Filters>(props: TableWrapperPro
         handleDrop,
         setDragged } = useColumns(propCols)
 
+        useEffect(() => {
+  console.log("search:", search);
+  console.log("debounced:", debouncedSearch);
+}, [search, debouncedSearch]);
+
+
     return (
         <>
-         {/* <h2 >table wrapper test</h2> */}
-         <h2 className='sr-only'>table wrapper test</h2>
-         <h2 className='sr-only'>{t("table.tablemenu")}</h2>
+            <h2 className='sr-only'>{t("table.tableMenu")}</h2>
             <Card>
                 <SimpleSearch search={search} setSearch={setSearch}></SimpleSearch>
                 {/* <Filters open={open} setOpen={setOpen} isPending={isPending} filters={filters} setFilters={setFilters} handleReset={handleReset} ></Filters> */}

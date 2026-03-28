@@ -45,7 +45,10 @@
     "load": "Załaduj",
     "actions": "Akcje"
   },
-  "table": {
-    "tablemenu": "Menu Tabeli"
+ "table": {
+   
+      "tableMenu": "Menu Tabeli",
+      "simpleSearch": "Proste Wyszukiwanie"
+    
   }
 }

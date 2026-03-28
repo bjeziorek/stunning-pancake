@@ -3,7 +3,7 @@ import type { TableColumnsColumn, TableColumnsColumns } from "../../../types/col
 import type { TableSortSort, TableSortToggleSort } from "../../../types/sort";
 import type { TableDragHandleDrop, TableDragSetDragged } from "../../../types/drag";
 
-interface TableHeaderProps <Data>{
+interface TableHeaderProps<Data> {
     setDragged: TableDragSetDragged,
     handleDrop: TableDragHandleDrop,
     columns: TableColumnsColumns<Data>,
@@ -16,13 +16,13 @@ export function TableHeader<Data>(props: TableHeaderProps<Data>) {
     return (
         <Table.Header>
             <Table.Row>
-                {columns.filter(c => c.visible).map((col:TableColumnsColumn<Data>) => (
+                {columns.filter(c => c.visible).map((col: TableColumnsColumn<Data>) => (
                     <Table.ColumnHeaderCell
                         key={col.id.toString()}
                         draggable
-                        onDragStart={() => setDragged(col.id.toString())}
+                        onDragStart={() => setDragged(col.id)}
                         onDragOver={(e) => e.preventDefault()}
-                        onDrop={() => handleDrop(col.id.toString())}
+                        onDrop={() => handleDrop(col.id)}
                         onClick={() => toggleSort(col)}
                     >
                         {col.label} {sort.column?.id === col.id && (sort.direction === "asc" ? "▲" : "▼")}

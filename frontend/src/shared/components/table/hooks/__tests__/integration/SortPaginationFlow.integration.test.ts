@@ -23,7 +23,5 @@ describe('sort and pagination integration tests', () => {
             { age: 26, name: 'Jack' },
             { age: 25, name: 'Matt' },
         ]);
-
     })
-
 })

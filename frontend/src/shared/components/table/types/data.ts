@@ -1,1 +1,1 @@
-export type TableData<T> = T[];
+export type TableData<T extends { id: string | number }> = T[];

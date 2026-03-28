@@ -46,6 +46,9 @@
     "actions": "Actions"
   },
   "table": {
-    "tablemenu": "Table Menu"
+   
+      "tableMenu": "Table Menu",
+      "simpleSearch": "Simple Search"
+    
   }
 }

@@ -1,22 +1,21 @@
-import type { Model } from "@/modules/models/types/Models"
 import { Table } from "@radix-ui/themes"
 import type { TableColumnsColumns } from "../../../types/columns";
 import type { TableData } from "../../../types/data";
 
-interface TableBodyProps {
-    paginated: TableData,
-    columns: TableColumnsColumns
+interface TableBodyProps<Data extends { id: string | number; }> {
+    paginated: TableData<Data>,
+    columns: TableColumnsColumns<Data>
 }
 
-export function TableBody(props: TableBodyProps) {
+export function TableBody<Data extends { id: string | number; }>(props: TableBodyProps<Data>) {
     const { paginated, columns } = props;
 
     return (
         <Table.Body>
-            {paginated.map((model: Model) => (
+            {paginated.map((model: Data) => (
                 <Table.Row key={model.id}>
                     {columns.filter(c => c.visible).map(col => (
-                        <Table.Cell key={col.id}>
+                        <Table.Cell key={col?.id}>
                             {col.render(model)}
                         </Table.Cell>
                     ))}
