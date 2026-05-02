@@ -3,7 +3,10 @@ export interface ServiceModel {
   name: string,
   enabled: boolean,
   status: ServiceModelStatus,
-  process: any
+  process: any | null,
+  healthy: boolean,
+  port: string,
+  cwd: string
 }
 
 export type ServiceModelStatus = "on" | "off" | "starting" | "error" | "stopping"
