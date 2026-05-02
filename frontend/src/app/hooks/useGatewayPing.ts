@@ -2,19 +2,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useGatewayConnection } from "./useGatewayConnection";
 import { toast } from "sonner";
 
-interface ServiceModel {
-  id: number,
-  name: string,
-  status: StatusType,
-}
-
-type StatusType = "online" | "offline"
-
 export function useGatewayPing() {
   const { enabled, setEnabled } = useGatewayConnection();
-  const [online, setOnline] = useState<boolean | null>(null);
-  const [services, setServices] = useState<Record<string, boolean>>({});
-  const [servicesList, setServicesList] = useState<ServiceModel[]>([]);
+  const [online, setOnline] = useState<boolean>(false);
 
   const failCount = useRef(0);
 
@@ -24,17 +14,12 @@ export function useGatewayPing() {
     try {
       const res = await fetch("http://localhost:3001/health");
       if (!res.ok) throw new Error();
-      const data = await res.json();
 
       setOnline(true);
-      setServices(data.services);
-      setServicesList(data.servicesList);
 
       failCount.current = 0;
     } catch {
       setOnline(false);
-      setServices({});
-      setServicesList([]);
 
       failCount.current += 1;
 
@@ -59,5 +44,8 @@ export function useGatewayPing() {
     return () => clearInterval(interval);
   }, [enabled, ping]);
 
-  return { online, services, servicesList, ping };
+  return { 
+    online, 
+    ping 
+  };
 }
