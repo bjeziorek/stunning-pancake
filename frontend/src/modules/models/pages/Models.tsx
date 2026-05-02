@@ -11,7 +11,6 @@ import * as Collapsible from "@radix-ui/react-collapsible";
 import type { Model } from "../types/Models";
 import { OfflineWrapper } from "@/shared/components/OfflineWrapper";
 import { DemoTable } from "../demoInfo/DemoTable";
-import { models as modelsDBstub } from "@/mockData/modelsDB";
 
 export default function Models() {
     const [search, setSearch] = useState("");

@@ -1,4 +1,4 @@
-import { formMockData } from "@/mockData/formMock";
+
 import { FormWrapper } from "@/shared/components/form/pages/FormWrapper";
 import { Card, Text } from "@radix-ui/themes";
 import { Blocks, TestTube, Toolbox } from "lucide-react";
@@ -45,7 +45,8 @@ export default function Sandbox() {
       </div>
       <Card>
         <Text>testy formularzy</Text>
-        <FormWrapper formConfig={formMockData}></FormWrapper>
+        
+        {/* <FormWrapper formConfig={formMockData}></FormWrapper> */}
       </Card>
     </>
   );

@@ -3,13 +3,15 @@ import Sandbox from "../modules/sandbox1/pages/Sandbox";
 import Sandbox2 from "../modules/sandbox2/pages/Sandbox2";
 import Health from "../modules/health/pages/Health";
 import NeuralNetworks from "../modules/nn/pages/NeuralNetworks";
-import {Models} from "@/modules/models";
+import { Models } from "@/modules/models";
 import { Dashboard } from "@/modules/dashboard";
+import { DashboardIntro } from "@/modules/dashboardIntro";
 
 function AppRouter() {
     return (
         <Routes>
             <Route path="/" element={<Dashboard />}>
+                <Route index element={<DashboardIntro />} />
                 <Route path="health" element={<Health />} />
                 <Route path="models" element={<Models />} />
                 <Route path="nn" element={<NeuralNetworks />} />

@@ -2,7 +2,7 @@ import { t } from "i18next"
 import { TagIcon } from "lucide-react";
 import { Badge, Button, Flex, Tooltip } from "@radix-ui/themes";
 import type { TableColumnsColumns } from "@/shared/components/table/types/columns";
-import { loadModel } from "@/mockData/utils/loadModel";
+
 
 
 export interface FiltersMock {
@@ -246,7 +246,7 @@ export const newDataColumns: TableColumnsColumns<NewData> = [
       <Button
         disabled={model.status !== "ready"}
         variant="soft"
-        onClick={() => loadModel(model.id.toString())}
+        // onClick={() => loadModel(model.id.toString())}
       >
         Load
       </Button>

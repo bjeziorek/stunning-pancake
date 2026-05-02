@@ -5,6 +5,7 @@ import { TestDemo } from "../demoInfo/TestDemo";
 import { TableWrapper } from "@/shared/components";
 import type { TableColumnsColumns } from "@/shared/components/table/types/columns";
 import { filterMock, newData, newDataColumns, type NewData } from "./testMock";
+import {ProbablyATable} from 'probably-a-table'
 
 export default function NeuralNetworks() {
 
@@ -18,6 +19,7 @@ export default function NeuralNetworks() {
                 <TestDemo />
             </OfflineWrapper>
             <Text>costam costam</Text>
+            <ProbablyATable columns={[]} data={[]} filters={undefined} defaultFilters={undefined}/>
             <TableWrapper columns={cols} data={data} filters={filterMock} />
         </>
     )

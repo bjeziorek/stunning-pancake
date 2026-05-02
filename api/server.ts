@@ -13,6 +13,10 @@ app.get("/health", (req, res) => {
       training: false,
       inference: true,
     },
+    servicesList: [
+      {id: 1, name: 'gpt-2 simple', status: 'offline'},
+      {id: 2, name: 'gpt-2 streaming', status: 'offline'},
+    ]
   });
 });
 

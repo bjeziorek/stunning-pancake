@@ -1,7 +1,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Button, Flex, Spinner, Text } from "@radix-ui/themes";
 import { motion } from "framer-motion";
-import { Languages, Palette, Plug, Unplug } from "lucide-react";
+import { Palette, Plug, Unplug } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGatewayPing } from "../hooks/useGatewayPing";
@@ -42,25 +42,25 @@ export default function Topbar({ onLanguageChange, isAnimating }: TopbarProps) {
             {enabled ? (<Text>{t('topbar.disconnect')}</Text>) : (<Text>{t('topbar.connect')}</Text>)}
           </Button>
 
-<Flex gap="2" align="center">
-          {enabled ? (
-            online ? (
-              <div style={{ width: 14, height: 14, borderRadius: "50%", background: "green" }} />
+          <Flex gap="2" align="center">
+            {enabled ? (
+              online ? (
+                <div style={{ width: 14, height: 14, borderRadius: "50%", background: "green" }} />
+              ) : (
+                <Spinner size="2" />
+              )
             ) : (
-              <Spinner size="2" />
-            )
-          ) : (
-            <div style={{ width: 14, height: 14, borderRadius: "50%", background: "red" }} />
-          )}
-             {enabled ? (
-            online ? (
-              <Text>{t("topbar.online")}</Text>
+              <div style={{ width: 14, height: 14, borderRadius: "50%", background: "red" }} />
+            )}
+            {enabled ? (
+              online ? (
+                <Text>{t("topbar.online")}</Text>
+              ) : (
+                <Text>{t("topbar.connecting")}</Text>
+              )
             ) : (
-              <Text>{t("topbar.connecting")}</Text>
-            )
-          ) : (
-           <Text>{t("topbar.offline")}</Text>
-          )}
+              <Text>{t("topbar.offline")}</Text>
+            )}
           </Flex>
         </Flex>
       </header>
@@ -91,7 +91,7 @@ export default function Topbar({ onLanguageChange, isAnimating }: TopbarProps) {
         </DropdownMenu.Root>
 
         <Button
-        variant="ghost"
+          variant="ghost"
           onClick={() => setShowThemeInfo(true)}
           className="p-2 rounded hover:bg-[var(--gray-4)]"
         >
