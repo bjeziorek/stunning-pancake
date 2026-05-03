@@ -78,7 +78,14 @@ export function startService(service: ServiceModel) {
       });
       break;
     }
-    default: console.log("can't spawn unknown model:",service.name)
+    case "ws-test no model": {
+      console.log(`[${service.id}] Mock WS model – no process to spawn.`);
+      service.status = "on";
+      service.healthy = true;
+      service.process = null;
+      return;
+    }
+    default: console.log("can't spawn unknown model:", service.name)
   }
 
 
@@ -99,18 +106,18 @@ export function startService(service: ServiceModel) {
 
 
   // });
-  if(proc){
-  proc.stderr.on("data", data => {
-    console.error(`[${service.id} ERROR] ${data.toString()}`);
-  });
+  if (proc) {
+    proc.stderr.on("data", data => {
+      console.error(`[${service.id} ERROR] ${data.toString()}`);
+    });
 
-  proc.on("close", code => {
-    console.log(`[${service.id}] exited with code ${code}`);
-    service.process = null;
-    service.healthy = false;
-    service.status = "off";
-  });
-}
+    proc.on("close", code => {
+      console.log(`[${service.id}] exited with code ${code}`);
+      service.process = null;
+      service.healthy = false;
+      service.status = "off";
+    });
+  }
 }
 
 export function stopService(service: ServiceModel) {

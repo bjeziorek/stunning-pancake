@@ -1,3 +1,5 @@
+import type { ServiceModelStatus } from "./ServiceModelStatus"
+
 export interface ServiceModel {
   id: string,
   name: string,
@@ -14,5 +16,3 @@ export interface ServiceModel {
 export type ModelConnectionType = "ws" | "http" | "sse" | "mock"
 
 export type FrontendConnectionType = "ws" | "http" | "mock"
-
-export type ServiceModelStatus = "on" | "off" | "starting" | "error" | "stopping"

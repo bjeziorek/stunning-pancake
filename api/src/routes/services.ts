@@ -47,13 +47,13 @@ router.post("/:id/chat", async (req, res) => {
   }
 
   try {
-    const flaskRes = await fetch(`http://localhost:${service.port}/api/generate`, {
+    const modelRes = await fetch(`http://localhost:${service.port}/api/generate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: prompt })
     });
 
-    const data = await flaskRes.json();
+    const data = await modelRes.json();
     return res.json({ response: data.response });
 
   } catch (err) {

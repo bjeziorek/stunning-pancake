@@ -10,7 +10,7 @@ export function useGatewayPing() {
 
 
   const ping = useCallback(async () => {
-    console.log('ping')
+    // console.log('ping')
     try {
       const res = await fetch("http://localhost:3001/health");
       if (!res.ok) throw new Error();

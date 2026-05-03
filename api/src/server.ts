@@ -1,25 +1,43 @@
-// server.js
 import express from "express";
 import cors from "cors";
+import WebSocket, { WebSocketServer } from "ws"
+import http from "http";
 
 import { router as servicesRouter } from "./routes/services.js";
 import { router as healthRouter } from "./routes/health.js";
 import { startHeartbeat } from "./orchestrator/heartbeat.js";
+import { setupWebSocket } from "./ws/index.js";
 
-const app = express();
-app.use(express.json());
-app.use(cors());
+const httpApp = express();
+httpApp.use(express.json());
+httpApp.use(cors());
 
 // routes
-app.use("/health", healthRouter);
-app.use("/services", servicesRouter);
+httpApp.use("/health", healthRouter);
+httpApp.use("/services", servicesRouter);
 
-app.listen(3001, () => {
+const server = http.createServer(httpApp);
+
+setupWebSocket(server);
+
+server.listen(3001, () => {
   console.log("API Gateway running on http://localhost:3001");
-
-  // start heartbeat loop
-  startHeartbeat();
+   startHeartbeat();
 });
+
+process.on("uncaughtException", (err) => {
+  console.error("UNCAUGHT EXCEPTION:", err);
+});
+
+process.on("unhandledRejection", (reason) => {
+  console.error("UNHANDLED REJECTION:", reason);
+});
+
+// httpApp.listen(3001, () => {
+//   console.log("API Gateway running on http://localhost:3001");
+
+//   startHeartbeat();
+// });
 
 
 // import express from "express";
