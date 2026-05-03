@@ -19,6 +19,6 @@ export const services = [
     process: null,
     healthy: false,
     port: "5003",
-    cwd: "C:/Users/barba/Desktop/Kod/stunning-pancake/model_servers"
+    cwd: "C:/Users/barba/Desktop/Kod/stunning-pancake/gpt2_stream_fastapi"
   }
 ];

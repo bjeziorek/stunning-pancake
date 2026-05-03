@@ -19,7 +19,7 @@ export function useChat() {
 
         const userMessage = input;
         setInput("");
-        setMessages(prev => [...prev, { role: "user", text: userMessage }]);
+        setMessages(prev => [...prev, { role: "you", text: userMessage }]);
 
         setLoading(true);
         try {

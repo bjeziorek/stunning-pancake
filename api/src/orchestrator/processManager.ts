@@ -22,7 +22,7 @@ async function testInference(service: ServiceModel) {
 
 
 
-export function startService(service:ServiceModel) {
+export function startService(service: ServiceModel) {
   if (service.process) {
     console.log(`[${service.id}] Already running`);
     return;
@@ -31,32 +31,59 @@ export function startService(service:ServiceModel) {
   console.log(`[${service.id}] Starting...`);
   service.status = "starting";
 
-// console.log("PATH:", process.env.PATH);
-// console.log("USER:", process.env.USERNAME || process.env.USER);
-// console.log("CWD:", process.cwd());
+  // console.log("PATH:", process.env.PATH);
+  // console.log("USER:", process.env.USERNAME || process.env.USER);
+  // console.log("CWD:", process.cwd());
 
-const pythonDir = "C:/Users/barba/AppData/Local/Programs/Python/Python314/";
-// const pythonDir = "pythonExe = C:/Users/barba/Desktop/Kod/stunning-pancake/model_servers/venv/Scripts/";
-const pythonExe = pythonDir + "python.exe";
+  const pythonDir = "C:/Users/barba/AppData/Local/Programs/Python/Python314/";
+  // const pythonDir = "pythonExe = C:/Users/barba/Desktop/Kod/stunning-pancake/model_servers/venv/Scripts/";
+  const pythonExe = pythonDir + "python.exe";
 
-console.log("PYTHON EXE:", pythonExe);
+  console.log("PYTHON EXE:", pythonExe);
 
-console.log(service.cwd)
-// const proc = spawn(pythonExe, ["--version"], {
-//   env: { PATH: process.env.PATH + ";" + pythonDir }
-// });
+  console.log(service.cwd)
+  // const proc = spawn(pythonExe, ["--version"], {
+  //   env: { PATH: process.env.PATH + ";" + pythonDir }
+  // });
 
-  const proc = spawn(pythonExe, ["app.py"], {
-    cwd: service.cwd,
-    env: { 
-      ...process.env, 
-      PATH: process.env.PATH + ";" + pythonDir,
-      PORT: service.port 
+  let proc = null;
+
+  switch (service.name) {
+    case "gpt-2 simple": {
+      console.log("spawing 'gpt-2 simple' model...");
+      proc = spawn(pythonExe, ["app.py"], {
+        cwd: service.cwd,
+        env: {
+          ...process.env,
+          PATH: process.env.PATH + ";" + pythonDir,
+          PORT: service.port
+        }
+      });
+      break;
     }
-  });
+    case "gpt-2 streaming": {
+      console.log("spawing 'gpt-2 streaming' model...");
+      proc = spawn(pythonExe, [
+        "-m", "uvicorn",
+        "main:app",
+        "--host", "0.0.0.0",
+        "--port", service.port
+      ], {
+        cwd: service.cwd,
+        env: {
+          ...process.env,
+          PATH: process.env.PATH + ";" + pythonDir,
+          PORT: service.port
+        }
+      });
+      break;
+    }
+    default: console.log("can't spawn unknown model:",service.name)
+  }
 
-// proc.stdout.on("data", d => console.log("stdout:", d.toString()));
-// proc.stderr.on("data", d => console.log("stderr:", d.toString()));
+
+  // proc.stdout.on("data", d => console.log("stdout:", d.toString()));
+  // proc.stderr.on("data", d => console.log("stderr:", d.toString()));
 
   service.process = proc;
 
@@ -72,7 +99,7 @@ console.log(service.cwd)
 
 
   // });
-
+  if(proc){
   proc.stderr.on("data", data => {
     console.error(`[${service.id} ERROR] ${data.toString()}`);
   });
@@ -84,8 +111,9 @@ console.log(service.cwd)
     service.status = "off";
   });
 }
+}
 
-export function stopService(service:ServiceModel) {
+export function stopService(service: ServiceModel) {
   if (!service.process) {
     console.log(`[${service.id}] Not running`);
     return;

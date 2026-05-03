@@ -6,7 +6,7 @@ import type { ServiceModel } from "../types/ServiceModel.js";
 
 export const router = express.Router();
 
-// gets servidec list
+// gets services list
 router.get("/", (req, res) => {
   res.json(services);
 });
@@ -29,7 +29,7 @@ router.post("/:id/state", (req, res) => {
   res.json({ success: true, service });
 });
 
-// gets promt form React, sends it to flask, when flask responds, it's sent back to React 
+// gets prompt form React, sends it to flask, when flask responds, it's sent back to React 
 router.post("/:id/chat", async (req, res) => {
   const service = services.find(s => s.id === req.params.id);
 

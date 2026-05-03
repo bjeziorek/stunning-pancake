@@ -20,6 +20,27 @@ export default function DashboardIntro() {
     const [currentPreviewId, setCurrentPreviewId] = useState('')
     const chat = useChat();
 
+
+     const fastApiDirectTest = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text: 'Cats are...' })
+      });
+
+      const data = await res.json();
+      console.log("Model flastapi response:", data.response);
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  };
+
+
+ // fastApiDirectTest()
+
     if (!isApiGatewayOnline) {
         return (<div>Here will be demo content (no i18n!)</div>)
     }
