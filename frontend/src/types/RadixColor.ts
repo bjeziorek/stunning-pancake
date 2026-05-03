@@ -1,0 +1,1 @@
+export type RadixColor = "blue" | "brown" | "crimson" | "cyan" | "gold" | "gray" | "green" | "indigo" | "lime" | "orange" | "pink" | "plum" | "purple" | "red" | "teal" | "tomato" | "violet" | "yellow" | "ruby" | "bronze" | "amber" | "iris" | "jade" | "grass" | "mint" | "sky" | undefined

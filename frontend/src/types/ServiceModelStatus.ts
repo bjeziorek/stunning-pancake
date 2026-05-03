@@ -1,0 +1,1 @@
+export type ServiceModelStatus = "on" | "off" | "starting" | "error" | "stopping"

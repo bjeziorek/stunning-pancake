@@ -1,10 +1,11 @@
 import { useGatewayPing } from "@/app/hooks/useGatewayPing";
-import { Box, Button, Card, Flex, Text } from "@radix-ui/themes";
+import { Badge, Box, Button, Card, Flex, Grid, Text, TextField } from "@radix-ui/themes";
 import { useServicesList } from "../hooks/useServicesList";
 import { useToggleService } from "../hooks/useToggleService";
 import { useState } from "react";
-import type { ServiceModel } from "../types/ServiceModel";
+import type { ServiceModel, ServiceModelStatus } from "../types/ServiceModel";
 import { useChat } from "../hooks/useChat";
+import type { RadixColor } from "@/types/RadixColor";
 
 export interface Chat {
     id: string,
@@ -38,50 +39,74 @@ export default function DashboardIntro() {
         }
     }
 
+    // add global Radix' Colors to not type as dangerous string here
+    function modelsStatusDotColor(status: ServiceModelStatus): RadixColor {
+        switch (status) {
+            case "error": return "orange"
+            case "off": return "red"
+            case "on": return "green"
+            case "starting": return "yellow"
+            case "stopping": return "purple"
+            default: return "gray"
+        }
+    }
+
     return (
-        <Flex>
-            <ul>
+        <Grid>
+            <Flex direction="column" gap="4">
                 {services.map(s => (
-                    <li key={s.id}>{s.name} - {s.enabled ? "online" : "offline"} - status:{s.status} -
-                        <Button onClick={() => {
-                            console.log('toggle')
+                    <Card key={s.id} className={s.id === currentPreviewId ? "border-2 border-green-600" : ""}>
+                         <Flex  gap="2" align="center">
+                        <Badge color={modelsStatusDotColor(s.status)}>{s.status}</Badge>
+                        {s.name}
+
+
+
+                        <Button mx="2" onClick={() => {
                             toggleService(s.id, !s.enabled).then(refresh);
                         }}>
-                            Toggle
+                            {s.status === "on" ? "Stop" : "Start"}
                         </Button>
-                        <Button disabled={!s.enabled} onClick={() => loadPreview(s)}>Preview</Button>
-                    </li>
+                        <Button disabled={!s.enabled} onClick={() => loadPreview(s)} color={s.id === currentPreviewId ? "orange" : "crimson"}>Preview</Button>
+</Flex>
+                    </Card>
                 ))}
-            </ul>
+            </Flex>
+
             <Box m="4">
                 <Card>
-                    <Text>Tu będzie wpisane preview</Text>
 
-                    {currentPreviewId && services.find(s => s.id === currentPreviewId)?.enabled ? (
-                        <Box>
-                            <div>Loaded: {services.find(s => s.id === currentPreviewId)?.name}</div>
+                    <Flex direction="column" gap="4">
 
-                            {chat.messages.map((m, i) => (
-                                <div key={i}>
-                                    <b>{m.role}:</b> {m.text}
-                                </div>
-                            ))}
+                        {currentPreviewId && services.find(s => s.id === currentPreviewId)?.status === "on" ? (
 
-                            <input
-                                value={chat.input}
-                                onChange={e => chat.setInput(e.target.value)}
-                            />
-                            {chat.isTyping && <div>model is thinking…</div>}
+                            <Flex direction="column" gap="4">
+                                <div>Loaded: {services.find(s => s.id === currentPreviewId)?.name}</div>
 
-                            <Button onClick={() => chat.sendMessage(currentPreviewId)} disabled={chat.loading}>
-                                Send
-                            </Button>
-                        </Box>
-                    ) : (
-                        <div>No preview</div>
-                    )}
+                                {chat.messages.map((m, i) => (
+                                    <Text key={i} color={m.role === "model" ? "cyan" : "orange"}>
+                                        <b>{m.role}:</b> {m.text}
+                                    </Text>
+                                ))}
+
+                                {chat.isTyping && <div>model is thinking…</div>}
+                                <TextField.Root placeholder="Ask model... (English only!)" value={chat.input}
+                                    onChange={e => chat.setInput(e.target.value)} />
+
+                                <Button onClick={() => chat.sendMessage(currentPreviewId)} disabled={chat.loading}>
+                                    Send
+                                </Button>
+                            </Flex>
+                        ) : (
+                            <>
+                                <div>{services.find(s => s.id === currentPreviewId)?.status === "off" ? "Start a model and click Preview to chat with it." : ""}</div>
+                                <div>{services.find(s => s.id === currentPreviewId)?.status === "starting" ? "Model Starting..." : ""}</div>
+                                <div>{services.find(s => s.id === currentPreviewId)?.status === "error" ? "Err... an error occured but sometimes it happens during start, give it a while, maybe will jump into online, if not restart model." : ""}</div>
+                            </>
+                        )}
+                    </Flex>
                 </Card>
             </Box>
-        </Flex>
+        </Grid>
     )
 }
