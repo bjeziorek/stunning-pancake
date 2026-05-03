@@ -1,12 +1,9 @@
-#from transformers import GPT2LMHeadModel, GPT2Tokenizer
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
-#tokenizer = GPT2Tokenizer.from_pretrained("gpt2",local_files_only=True)
-#model = GPT2LMHeadModel.from_pretrained("gpt2",local_files_only=True)
 model_name = "gpt2"
 print("Loading model... (first time may take a while)")
-tokenizer = AutoTokenizer.from_pretrained(model_name, local_files_only=True) # ten drugi argument jest opcjonalny
+tokenizer = AutoTokenizer.from_pretrained(model_name, local_files_only=True) 
 model = AutoModelForCausalLM.from_pretrained(model_name, local_files_only=True)
 
 

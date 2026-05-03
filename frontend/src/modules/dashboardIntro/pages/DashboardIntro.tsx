@@ -4,14 +4,20 @@ import { useServicesList } from "../hooks/useServicesList";
 import { useToggleService } from "../hooks/useToggleService";
 import { useState } from "react";
 import type { ServiceModel } from "../types/ServiceModel";
+import { useChat } from "../hooks/useChat";
 
+export interface Chat {
+    id: string,
+    chatHistory: string[]
+}
 
 export default function DashboardIntro() {
     const { online: isApiGatewayOnline } = useGatewayPing();
     const { services, refresh } = useServicesList(isApiGatewayOnline)
     const toggleService = useToggleService();
-    const [previewContent, setPreviewContent] = useState(<div>No preview loaded (no i18n!)</div>)
+    const [chats, setChats] = useState<Chat[]>([])
     const [currentPreviewId, setCurrentPreviewId] = useState('')
+    const chat = useChat();
 
     if (!isApiGatewayOnline) {
         return (<div>Here will be demo content (no i18n!)</div>)
@@ -20,20 +26,23 @@ export default function DashboardIntro() {
     console.log(services)
 
     function loadPreview(s: ServiceModel) {
+        if (!chats.find(chat => chat.id === s.id)) {
+            setChats(prev => [...prev, {
+                id: s.id,
+                chatHistory: []
+            }])
+        }
+
         if (s.enabled) {
             setCurrentPreviewId(s.id)
         }
-        setPreviewContent(
-            <div>Loaded: {s.name}</div>
-        )
     }
 
     return (
         <Flex>
             <ul>
                 {services.map(s => (
-                    <li key={s.id}>{s.name} - {s.enabled ? "online" : "offline"} -
-                        {/* <Button variant="ghost" mx="1">On/Off */}
+                    <li key={s.id}>{s.name} - {s.enabled ? "online" : "offline"} - status:{s.status} -
                         <Button onClick={() => {
                             console.log('toggle')
                             toggleService(s.id, !s.enabled).then(refresh);
@@ -46,13 +55,31 @@ export default function DashboardIntro() {
             </ul>
             <Box m="4">
                 <Card>
-                    <Text>Tu będzie wpisane preview (no i18n!)</Text>
-                    {
-                    services.find(ser => ser.id === currentPreviewId)?.enabled
-                        ? previewContent
-                        : <div>Service "{services.find(ser => ser.id === currentPreviewId)?.name}" offline - no preview! (no i18n!)</div>
-                    }
+                    <Text>Tu będzie wpisane preview</Text>
 
+                    {currentPreviewId && services.find(s => s.id === currentPreviewId)?.enabled ? (
+                        <Box>
+                            <div>Loaded: {services.find(s => s.id === currentPreviewId)?.name}</div>
+
+                            {chat.messages.map((m, i) => (
+                                <div key={i}>
+                                    <b>{m.role}:</b> {m.text}
+                                </div>
+                            ))}
+
+                            <input
+                                value={chat.input}
+                                onChange={e => chat.setInput(e.target.value)}
+                            />
+                            {chat.isTyping && <div>model is thinking…</div>}
+
+                            <Button onClick={() => chat.sendMessage(currentPreviewId)} disabled={chat.loading}>
+                                Send
+                            </Button>
+                        </Box>
+                    ) : (
+                        <div>No preview</div>
+                    )}
                 </Card>
             </Box>
         </Flex>

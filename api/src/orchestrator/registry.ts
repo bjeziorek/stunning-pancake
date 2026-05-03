@@ -9,7 +9,7 @@ export const services = [
     process: null,
     healthy: false,
     port: "5002",
-    cwd: "/absolute/path/to/flask/project"
+    cwd: "C:/Users/barba/Desktop/Kod/stunning-pancake/model_servers"
   },
   {
     id: "2",
@@ -19,6 +19,6 @@ export const services = [
     process: null,
     healthy: false,
     port: "5003",
-    cwd: "/absolute/path/to/flask/project"
+    cwd: "C:/Users/barba/Desktop/Kod/stunning-pancake/model_servers"
   }
 ];
