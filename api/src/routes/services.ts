@@ -1,4 +1,3 @@
-// routes/services.js
 import express from "express";
 import { services } from "../orchestrator/registry.js";
 import { startService, stopService } from "../orchestrator/processManager.js";
@@ -29,7 +28,7 @@ router.post("/:id/state", (req, res) => {
   res.json({ success: true, service });
 });
 
-// gets prompt form React, sends it to flask, when flask responds, it's sent back to React 
+// gets prompt form React, sends it to microservice, when micriservice responds, it's sent back to React 
 router.post("/:id/chat", async (req, res) => {
   const service = services.find(s => s.id === req.params.id);
 

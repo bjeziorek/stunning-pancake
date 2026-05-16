@@ -38,5 +38,17 @@ export const services:ServiceModel[] = [
     cwd: "",
     modelConnectionType: "mock",
     frontendConnectionType: "ws"
+  },
+   {
+    id: "4",
+    name: "ws-test manually chunked gpt2",
+    enabled: false,
+    status: "off",
+    process: null,
+    healthy: false,
+    port: "5004",
+    cwd: "C:/Users/barba/Desktop/Kod/stunning-pancake/gpt2_stream_fastapi",
+    modelConnectionType: "ws",
+    frontendConnectionType: "ws"
   }
 ];

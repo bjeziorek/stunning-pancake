@@ -43,7 +43,7 @@ export default function DashboardIntro() {
         return (<div>Here will be demo content (no i18n!)</div>)
     }
 
-    console.log(services)
+   // console.log(services)
 
     function loadPreview(s: ServiceModel) {
         if (!chats.find(chat => chat.id === s.id)) {

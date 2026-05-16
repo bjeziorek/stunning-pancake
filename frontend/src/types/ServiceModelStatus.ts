@@ -1,1 +1,1 @@
-export type ServiceModelStatus = "on" | "off" | "starting" | "error" | "stopping"
+export type ServiceModelStatus = "on" | "off" | "starting" | "error" | "stopping" | "errorManual"

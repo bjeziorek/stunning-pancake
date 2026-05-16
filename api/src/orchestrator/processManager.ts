@@ -48,7 +48,7 @@ export function startService(service: ServiceModel) {
 
   let proc = null;
 
-  switch (service.name) {
+  switch (service.name) {  // Flask
     case "gpt-2 simple": {
       console.log("spawing 'gpt-2 simple' model...");
       proc = spawn(pythonExe, ["app.py"], {
@@ -61,7 +61,7 @@ export function startService(service: ServiceModel) {
       });
       break;
     }
-    case "gpt-2 streaming": {
+    case "gpt-2 streaming": {  // FastAPI
       console.log("spawing 'gpt-2 streaming' model...");
       proc = spawn(pythonExe, [
         "-m", "uvicorn",
@@ -84,6 +84,23 @@ export function startService(service: ServiceModel) {
       service.healthy = true;
       service.process = null;
       return;
+    }
+    case "ws-test manually chunked gpt2": {  // FastAPI
+      console.log("spawing 'ws-test manually chunked gpt2' model...");
+      proc = spawn(pythonExe, [
+        "-m", "uvicorn",
+        "main:app",
+        "--host", "0.0.0.0",
+        "--port", service.port
+      ], {
+        cwd: service.cwd,
+        env: {
+          ...process.env,
+          PATH: process.env.PATH + ";" + pythonDir,
+          PORT: service.port
+        }
+      });
+      break;
     }
     default: console.log("can't spawn unknown model:", service.name)
   }
@@ -108,7 +125,16 @@ export function startService(service: ServiceModel) {
   // });
   if (proc) {
     proc.stderr.on("data", data => {
-      console.error(`[${service.id} ERROR] ${data.toString()}`);
+      console.error(`[${service.id}] ${data.toString()}`);
+    });
+
+  proc.stderr.on("error", data => {
+      console.error(`[${service.id} ERR] ${data.toString()}`);
+    });
+
+    proc.on("error", err => {
+      console.error(`[${service.id} ERROR]`, err);
+      service.status = "error";
     });
 
     proc.on("close", code => {
@@ -117,7 +143,10 @@ export function startService(service: ServiceModel) {
       service.healthy = false;
       service.status = "off";
     });
+  } else {
+    console.log('no proc')
   }
+
 }
 
 export function stopService(service: ServiceModel) {

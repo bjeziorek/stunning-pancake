@@ -1,6 +1,7 @@
 import http from 'http';
 import { WebSocketServer } from "ws";
 import { handleWsTest } from "./handlers/wsTest.js";
+import { handleWsLLM } from './handlers/wsPython.js';
 
 export function setupWebSocket(server:http.Server) {
   const wss = new WebSocketServer({ server });
@@ -14,6 +15,11 @@ export function setupWebSocket(server:http.Server) {
 
     if (modelId === "3") { // == wsTest
       handleWsTest(socket);
+      return;
+    }
+
+     if (modelId === "4") { // == wsPython
+      handleWsLLM(socket);
       return;
     }
 
