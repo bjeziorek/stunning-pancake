@@ -7,17 +7,20 @@ import { Toaster } from 'sonner';
 import { BrowserRouter } from 'react-router-dom'
 import "./i18n/i18n.ts";
 import { GatewayConnectionProvider } from './app/providers/GatewayConnectionProvider.tsx'
+import { GlobalErrorBoundary } from './app/GlobalErrorBoundary.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode> 
-   <GatewayConnectionProvider>
-    <BrowserRouter>
-    <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%">
-      <Toaster />
-      <ThemePanel />
-      <App />
-    </Theme>
-    </BrowserRouter>
+  <StrictMode>
+    <GatewayConnectionProvider>
+      <BrowserRouter>
+        <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%">
+          <Toaster />
+          <ThemePanel />
+          <GlobalErrorBoundary>
+            <App />
+          </GlobalErrorBoundary>
+        </Theme>
+      </BrowserRouter>
     </GatewayConnectionProvider>
   </StrictMode>,
 )

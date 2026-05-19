@@ -1,4 +1,3 @@
-import { Outlet } from "react-router-dom";
 import Sidebar from "../../../app/layout/sidebar/Sidebar";
 import Topbar from "../../../app/layout/Topbar";
 import { motion, AnimatePresence } from "framer-motion";
@@ -6,10 +5,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import i18n from "../../../i18n/i18n";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import { ErrorBoundary } from "@/app/ErrorBoundary";
+import { useLocation, Outlet } from "react-router-dom";
 
 export default function Dashboard() {
 
   const { i18n } = useTranslation();
+  const location = useLocation()
   const [isAnimating, setIsAnimating] = useState(false);
   const [nextLang, setNextLang] = useState<string | null>(null);
 
@@ -49,7 +51,7 @@ export default function Dashboard() {
               transition={{ duration: 0.25 }}
               onAnimationComplete={handleAnimationComplete}
             >
-              {!isAnimating && <Outlet />}
+              {!isAnimating && <ErrorBoundary key={location.pathname}><Outlet /></ErrorBoundary>}
             </motion.div>
           </AnimatePresence>
         </main>
